@@ -5,7 +5,9 @@ VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Precificador.Database", "Precificador.Database\Precificador.Database.sqlproj", "{31B45F94-D198-484A-A729-5EB0446CC61F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Precificador.Core", "Precificador.Core\Precificador.Core.csproj", "{EB8FA231-3510-48EE-B2C5-AC15378FD9B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Precificador.Core", "Precificador.Core\Precificador.Core.csproj", "{EB8FA231-3510-48EE-B2C5-AC15378FD9B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Precificador.App", "Precificador.App\Precificador.App.csproj", "{0A72E7C0-92CA-436F-AC08-56F20F59049D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{EB8FA231-3510-48EE-B2C5-AC15378FD9B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB8FA231-3510-48EE-B2C5-AC15378FD9B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB8FA231-3510-48EE-B2C5-AC15378FD9B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A72E7C0-92CA-436F-AC08-56F20F59049D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A72E7C0-92CA-436F-AC08-56F20F59049D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A72E7C0-92CA-436F-AC08-56F20F59049D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A72E7C0-92CA-436F-AC08-56F20F59049D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
