@@ -8,5 +8,6 @@
         public decimal Margem { get; set; }
         public decimal PrecoVenda { get; set; }
         public decimal PrecoPromocional { get; set; }
+        public DateTime DataPreco { get; set; }
     }
 }

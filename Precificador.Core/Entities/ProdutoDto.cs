@@ -15,5 +15,7 @@ namespace Precificador.Core.Entities
         [Required]
         public decimal PrecoVenda { get; set; }
         public decimal PrecoPromocional { get; set; }
+        [Required]
+        public DateTime DataPreco { get; set; }
     }
 }

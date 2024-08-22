@@ -18,5 +18,7 @@ namespace Precificador.Core.Entities
         public int IdUnidadeMedida { get; set; }
         [Required]
         public decimal PrecoUnidade { get; set; }
+        [Required]
+        public DateTime DataPreco { get; set; }
     }
 }
