@@ -56,7 +56,6 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Colecao.sql" />
@@ -64,7 +63,8 @@
     <Build Include="Produto.sql" />
     <Build Include="InsumoProduto.sql" />
     <Build Include="ProdutoColecao.sql" />
-    <Build Include="Security\sysdba.sql" />
-    <Build Include="Security\RoleMemberships.sql" />
+    <Build Include="TipoInsumo.sql" />
+    <Build Include="UnidadeMedida.sql" />
+    <Build Include="DadosMockados.sql" />
   </ItemGroup>
 </Project>

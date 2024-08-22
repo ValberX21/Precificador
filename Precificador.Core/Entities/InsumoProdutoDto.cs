@@ -12,5 +12,9 @@ namespace Precificador.Core.Entities
         public int IdInsumo { get; set; }
         [Required]
         public decimal Quantidade { get; set; }
+        [Required]
+        public decimal PrecoInsumo { get; set; }
+        [Required]
+        public decimal TotalInsumo { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[ProdutoColecao] (
-    [Id]        INT NOT NULL,
+    [Id]        INT NOT NULL IDENTITY(1, 1),
     [IdColecao] INT NOT NULL,
     [IdProduto] INT NOT NULL,
     CONSTRAINT [PK_ProdutoColecao] PRIMARY KEY CLUSTERED ([Id] ASC),

@@ -19,7 +19,7 @@ namespace Precificador.App
 
         private void FrmNovoProduto_Load(object sender, EventArgs e)
         {
-            CarregarCombos();
+            //CarregarCombos();
         }
 
         private void Salvar()
