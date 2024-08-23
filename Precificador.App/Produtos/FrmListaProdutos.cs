@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Precificador.Core.Domain;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -19,8 +20,7 @@ namespace Precificador.App.Produtos
 
         private List<Produto> CarregarProdutos()
         {
-            var produto = new Produto();
-            return produto.Listar();
+            return Produto.Listar();
         }
     }
 }

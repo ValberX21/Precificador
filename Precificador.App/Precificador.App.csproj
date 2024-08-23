@@ -96,7 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Precificador.Core\Precificador.Core.csproj">
-      <Project>{eb8fa231-3510-48ee-b2c5-ac15378fd9b7}</Project>
+      <Project>{65E48249-DC0E-4B35-9A2E-BB02F39CD577}</Project>
       <Name>Precificador.Core</Name>
     </ProjectReference>
   </ItemGroup>

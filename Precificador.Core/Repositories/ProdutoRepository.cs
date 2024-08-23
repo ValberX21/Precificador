@@ -1,4 +1,5 @@
 ﻿using Precificador.Core.Domain;
+using System.Collections.Generic;
 
 namespace Precificador.Core.Repositories
 {

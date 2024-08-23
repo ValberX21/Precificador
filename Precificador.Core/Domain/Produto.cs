@@ -1,4 +1,6 @@
 ﻿using Precificador.Core.Repositories;
+using System;
+using System.Collections.Generic;
 
 namespace Precificador.Core.Domain
 {
@@ -12,7 +14,7 @@ namespace Precificador.Core.Domain
         public decimal PrecoPromocional { get; set; }
         public DateTime DataPreco { get; set; }
 
-        public List<Produto> Listar()
+        public static List<Produto> Listar()
         {
             var repository = new ProdutoRepository();
             return repository.Listar();
