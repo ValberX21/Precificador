@@ -1,4 +1,6 @@
-﻿namespace Precificador.Core.Domain
+﻿using Precificador.Core.Repositories;
+
+namespace Precificador.Core.Domain
 {
     public class Produto
     {
@@ -9,5 +11,11 @@
         public decimal PrecoVenda { get; set; }
         public decimal PrecoPromocional { get; set; }
         public DateTime DataPreco { get; set; }
+
+        public List<Produto> Listar()
+        {
+            var repository = new ProdutoRepository();
+            return repository.Listar();
+        }
     }
 }

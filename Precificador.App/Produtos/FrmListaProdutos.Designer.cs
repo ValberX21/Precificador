@@ -1,6 +1,6 @@
-﻿namespace Precificador.App
+﻿namespace Precificador.App.Produtos
 {
-    partial class FrmNovoProduto
+    partial class FrmListaProdutos
     {
         /// <summary>
         /// Required designer variable.
@@ -28,21 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.dgvProdutos = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProdutos)).BeginInit();
             this.SuspendLayout();
             // 
-            // FrmNovoProduto
+            // dgvProdutos
+            // 
+            this.dgvProdutos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvProdutos.Location = new System.Drawing.Point(12, 12);
+            this.dgvProdutos.Name = "dgvProdutos";
+            this.dgvProdutos.Size = new System.Drawing.Size(595, 150);
+            this.dgvProdutos.TabIndex = 0;
+            // 
+            // FrmListaProdutos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(438, 287);
-            this.Name = "FrmNovoProduto";
-            this.Text = "Cadastro de Produto";
-            this.Load += new System.EventHandler(this.FrmNovoProduto_Load);
+            this.ClientSize = new System.Drawing.Size(622, 176);
+            this.Controls.Add(this.dgvProdutos);
+            this.Name = "FrmListaProdutos";
+            this.Text = "Produtos";
+            this.Load += new System.EventHandler(this.FrmListaProdutos_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProdutos)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.DataGridView dgvProdutos;
     }
 }
-

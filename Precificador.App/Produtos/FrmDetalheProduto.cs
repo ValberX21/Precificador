@@ -8,23 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Precificador.App
+namespace Precificador.App.Produtos
 {
-    public partial class FrmNovoProduto : Form
+    public partial class FrmDetalheProduto : Form
     {
-        public FrmNovoProduto()
+        public FrmDetalheProduto()
         {
             InitializeComponent();
-        }
-
-        private void FrmNovoProduto_Load(object sender, EventArgs e)
-        {
-            //CarregarCombos();
-        }
-
-        private void Salvar()
-        {
-
         }
     }
 }

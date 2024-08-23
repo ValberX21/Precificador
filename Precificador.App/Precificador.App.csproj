@@ -46,16 +46,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FrmNovoProduto.cs">
+    <Compile Include="FrmMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmNovoProduto.Designer.cs">
-      <DependentUpon>FrmNovoProduto.cs</DependentUpon>
+    <Compile Include="FrmMenu.Designer.cs">
+      <DependentUpon>FrmMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Produtos\FrmDetalheProduto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Produtos\FrmDetalheProduto.Designer.cs">
+      <DependentUpon>FrmDetalheProduto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Produtos\FrmListaProdutos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Produtos\FrmListaProdutos.Designer.cs">
+      <DependentUpon>FrmListaProdutos.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FrmNovoProduto.resx">
-      <DependentUpon>FrmNovoProduto.cs</DependentUpon>
+    <EmbeddedResource Include="FrmMenu.resx">
+      <DependentUpon>FrmMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Produtos\FrmListaProdutos.resx">
+      <DependentUpon>FrmListaProdutos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -78,6 +93,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Precificador.Core\Precificador.Core.csproj">
+      <Project>{eb8fa231-3510-48ee-b2c5-ac15378fd9b7}</Project>
+      <Name>Precificador.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
