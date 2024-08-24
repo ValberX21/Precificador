@@ -1,21 +1,25 @@
-﻿using Precificador.Core.Domain;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using Precificador.Core.Entities;
+using Precificador.Core.Interfaces;
 
 namespace Precificador.Core.Repositories
 {
-    internal class ProdutoRepository : RepositoryBase
+    internal class ProdutoRepository : BaseRepository<ProdutoDto>, IProdutoRepository
     {
-        internal List<Produto> Listar(int filtroColecao, string filtroProduto)
+        public ProdutoRepository(string connectionString) : base(connectionString)
         {
-            var retorno = new List<Produto>();
-
-            using (var connection = new SqlConnection(connectionString))
-            {
-                //TODO: Implementar Simple CRUD ... Operações
-            }
-
-            return retorno;
+            //
         }
+
+        //internal List<Produto> Listar(int filtroColecao, string filtroProduto)
+        //{
+        //    var retorno = new List<Produto>();
+
+        //    using (var connection = new SqlConnection(connectionString))
+        //    {
+        //        //TODO: Implementar Simple CRUD ... Operações
+        //    }
+
+        //    return retorno;
+        //}
     }
 }

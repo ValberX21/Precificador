@@ -3,11 +3,8 @@ using System;
 
 namespace Precificador.Core.Entities
 {
-    internal class ColecaoDto
+    internal class ColecaoDto : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
-
         [Required]
         public string Nome { get; set; }
 

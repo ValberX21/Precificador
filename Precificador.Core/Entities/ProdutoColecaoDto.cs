@@ -2,11 +2,8 @@
 
 namespace Precificador.Core.Entities
 {
-    internal class ProdutoColecaoDto
+    internal class ProdutoColecaoDto : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
-
         [Required]
         public int IdColecao { get; set; }
 
