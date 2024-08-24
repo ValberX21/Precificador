@@ -1,4 +1,6 @@
-﻿namespace Precificador.Core.Domain
+﻿using System;
+
+namespace Precificador.Core.Domain
 {
     public class Colecao
     {

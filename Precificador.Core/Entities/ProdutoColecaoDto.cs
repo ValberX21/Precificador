@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Dapper;
 
 namespace Precificador.Core.Entities
 {
@@ -9,7 +9,7 @@ namespace Precificador.Core.Entities
 
         [Required]
         public int IdColecao { get; set; }
-        
+
         [Required]
         public int IdProduto { get; set; }
     }

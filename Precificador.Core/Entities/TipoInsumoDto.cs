@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Dapper;
 
 namespace Precificador.Core.Entities
 {

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Precificador.App
@@ -16,7 +13,7 @@ namespace Precificador.App
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmNovoProduto());
+            Application.Run(new FrmMenu());
         }
     }
 }

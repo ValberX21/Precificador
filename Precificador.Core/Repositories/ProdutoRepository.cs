@@ -1,13 +1,21 @@
 ﻿using Precificador.Core.Domain;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace Precificador.Core.Repositories
 {
     internal class ProdutoRepository : RepositoryBase
     {
-        internal List<Produto> Listar()
+        internal List<Produto> Listar(int filtroColecao, string filtroProduto)
         {
-            throw new NotImplementedException();
+            var retorno = new List<Produto>();
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // ... Operações
+            }
+
+            return retorno;
         }
     }
 }

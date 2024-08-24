@@ -14,10 +14,10 @@ namespace Precificador.Core.Domain
         public decimal PrecoPromocional { get; set; }
         public DateTime DataPreco { get; set; }
 
-        public static List<Produto> Listar()
+        public static List<Produto> Listar(int filtroColecao, string filtroProduto)
         {
             var repository = new ProdutoRepository();
-            return repository.Listar();
+            return repository.Listar(filtroColecao, filtroProduto);
         }
     }
 }
