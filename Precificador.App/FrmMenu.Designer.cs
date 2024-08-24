@@ -71,7 +71,10 @@
             this.Controls.Add(this.btnInsumos);
             this.Controls.Add(this.btnColecoes);
             this.Controls.Add(this.btnProdutos);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FrmMenu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Precificador";
             this.ResumeLayout(false);
 

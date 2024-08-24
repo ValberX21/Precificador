@@ -15,38 +15,10 @@ namespace Precificador.App.Produtos
             InitializeComponent();
         }
 
+        #region Eventos
+
         private void FrmListaProdutos_Load(object sender, EventArgs e)
         {
-            CarregarFiltros();
-        }
-
-        private void CarregarProdutos()
-        {
-            List<Produto> produtos = Produto.Listar(filtroColecao, filtroProduto);
-            dgvProdutos.DataSource = produtos;
-        }
-
-        private void btnBuscar_Click(object sender, EventArgs e)
-        {
-            CarregarProdutos();
-        }
-
-        private void CarregarFiltros()
-        {
-            filtroColecao = cmbColecao.SelectedIndex;
-            filtroProduto = txtProduto.Text;
-            CarregarProdutos();
-        }
-
-        private void btnLimpar_Click(object sender, EventArgs e)
-        {
-            LimparFiltros();
-        }
-
-        private void LimparFiltros()
-        {
-            cmbColecao.SelectedIndex = 0;
-            txtProduto.Text = string.Empty;
             CarregarFiltros();
         }
 
@@ -57,6 +29,43 @@ namespace Precificador.App.Produtos
 
         private void txtProduto_TextChanged(object sender, EventArgs e)
         {
+            CarregarFiltros();
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            CarregarProdutos();
+        }
+
+        private void btnLimpar_Click(object sender, EventArgs e)
+        {
+            LimparFiltros();
+        }
+
+        private void btnFechar_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        #endregion
+
+        private void CarregarFiltros()
+        {
+            filtroColecao = cmbColecao.SelectedIndex;
+            filtroProduto = txtProduto.Text;
+            CarregarProdutos();
+        }
+
+        private void CarregarProdutos()
+        {
+            List<Produto> produtos = Produto.Listar(filtroColecao, filtroProduto);
+            dgvProdutos.DataSource = produtos;
+        }
+
+        private void LimparFiltros()
+        {
+            cmbColecao.SelectedIndex = 0;
+            txtProduto.Text = string.Empty;
             CarregarFiltros();
         }
     }

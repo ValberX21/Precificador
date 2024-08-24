@@ -12,7 +12,7 @@ namespace Precificador.Core.Repositories
 
             using (var connection = new SqlConnection(connectionString))
             {
-                // ... Operações
+                //TODO: Implementar Simple CRUD ... Operações
             }
 
             return retorno;
