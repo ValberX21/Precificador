@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Precificador.Core.Domain
 {
@@ -8,5 +9,11 @@ namespace Precificador.Core.Domain
         public string Nome { get; set; }
         public DateTime DataLancamento { get; set; }
         public int Ano { get { return DataLancamento.Year; } }
+
+        public static List<Colecao> Listar(string filtroColecao, int filtroAnoLancamento)
+        {
+            var repository = new ColecaoRepository();
+            return repository.Listar(filtroColecao, filtroAnoLancamento);
+        }
     }
 }

@@ -67,8 +67,10 @@
     <Compile Include="Entities\TipoInsumoDto.cs" />
     <Compile Include="Entities\UnidadeMedidaDto.cs" />
     <Compile Include="Interfaces\IBaseRepository.cs" />
+    <Compile Include="Interfaces\IColecaoRepository.cs" />
     <Compile Include="Interfaces\IProdutoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ColecaoRepository.cs" />
     <Compile Include="Repositories\ProdutoRepository.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
   </ItemGroup>

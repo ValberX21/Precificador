@@ -1,6 +1,6 @@
-﻿namespace Precificador.App.Produtos
+﻿namespace Precificador.App.Colecoes
 {
-    partial class FrmDetalheProduto
+    partial class FrmDetalheColecao
     {
         /// <summary>
         /// Required designer variable.
@@ -30,19 +30,18 @@
         {
             this.SuspendLayout();
             // 
-            // FrmDetalheProduto
+            // FrmDetalheColecao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FrmDetalheProduto";
+            this.Name = "FrmDetalheColecao";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Detalhe Produto";
-            this.Load += new System.EventHandler(this.FrmDetalheProduto_Load);
+            this.Text = "Detalhe Coleção";
             this.ResumeLayout(false);
 
         }

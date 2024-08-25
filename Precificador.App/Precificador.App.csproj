@@ -46,6 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Colecoes\FrmDetalheColecao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Colecoes\FrmDetalheColecao.Designer.cs">
+      <DependentUpon>FrmDetalheColecao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Colecoes\FrmListaColecoes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Colecoes\FrmListaColecoes.Designer.cs">
+      <DependentUpon>FrmListaColecoes.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,6 +78,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Colecoes\FrmDetalheColecao.resx">
+      <DependentUpon>FrmDetalheColecao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Colecoes\FrmListaColecoes.resx">
+      <DependentUpon>FrmListaColecoes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmMenu.resx">
       <DependentUpon>FrmMenu.cs</DependentUpon>
     </EmbeddedResource>
@@ -102,6 +120,9 @@
       <Project>{65E48249-DC0E-4B35-9A2E-BB02F39CD577}</Project>
       <Name>Precificador.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Insumos\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

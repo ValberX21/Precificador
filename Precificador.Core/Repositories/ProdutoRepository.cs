@@ -5,7 +5,7 @@ namespace Precificador.Core.Repositories
 {
     internal class ProdutoRepository : BaseRepository<ProdutoDto>, IProdutoRepository
     {
-        public ProdutoRepository(string connectionString) : base(connectionString)
+        internal ProdutoRepository(string connectionString) : base(connectionString)
         {
             //
         }
