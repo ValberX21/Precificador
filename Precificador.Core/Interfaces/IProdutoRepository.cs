@@ -2,7 +2,7 @@
 
 namespace Precificador.Core.Interfaces
 {
-    internal interface IProdutoRepository : IBaseRepository<ProdutoDto>
+    public interface IProdutoRepository : IBaseRepository<ProdutoDto>
     {
 
     }

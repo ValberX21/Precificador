@@ -3,7 +3,7 @@ using System;
 
 namespace Precificador.Core.Entities
 {
-    internal class ProdutoDto : BaseEntity
+    public class ProdutoDto : BaseEntity
     {
         [Required]
         public string Nome { get; set; }

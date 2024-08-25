@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Precificador.Core.Interfaces
 {
-    internal interface IBaseRepository<TEntity> where TEntity : BaseEntity
+    public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     {
         Task<int?> Add(TEntity entity);
         Task Delete(int id);
