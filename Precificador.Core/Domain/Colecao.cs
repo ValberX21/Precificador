@@ -15,5 +15,11 @@ namespace Precificador.Core.Domain
             var repository = new ColecaoRepository();
             return repository.Listar(filtroColecao, filtroAnoLancamento);
         }
+
+        public static Colecao GetById(int id)
+        {
+            var repository = new ColecaoRepository();
+            return repository.GetById(id);
+        }
     }
 }
