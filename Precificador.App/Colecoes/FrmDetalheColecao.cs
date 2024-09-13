@@ -11,7 +11,7 @@ namespace Precificador.App.Colecoes
         /// Id da Coleção, caso seja Consulta ou Edição
         /// </summary>
         public int IdColecao { get; set; }
-        
+
         /// <summary>
         /// Habilita ou desabilita componentes
         /// </summary>
@@ -61,7 +61,7 @@ namespace Precificador.App.Colecoes
 
         private Colecao CarregaDadosColecao(int idColecao)
         {
-            return Colecao.GetById(idColecao);
+            return Colecao.Consultar(idColecao);
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
@@ -73,7 +73,7 @@ namespace Precificador.App.Colecoes
         private void btnExcluir_Click(object sender, EventArgs e)
         {
             //TODO: Mensagem Confirmação
-            Colecao.Delete(IdColecao);
+            Colecao.Excluir(IdColecao);
             //TODO: Mensagem Confirmação
             Close();
         }
@@ -93,7 +93,7 @@ namespace Precificador.App.Colecoes
         {
             Colecao colecao = BaixarDados();
             ValidarDados(colecao);
-            Colecao.Save(colecao);
+            Colecao.Salvar(colecao);
         }
 
         private void ValidarDados(Colecao colecao)
@@ -102,7 +102,7 @@ namespace Precificador.App.Colecoes
             {
                 colecao.Validar();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //TODO: Mensagem de erro
                 //MessageBox.Show(ex.Message, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -113,12 +113,12 @@ namespace Precificador.App.Colecoes
         private Colecao BaixarDados()
         {
             Colecao colecao = new Colecao();
-            
+
             if (IdColecao > 0)
             {
                 colecao.Id = IdColecao;
             }
-            
+
             colecao.Nome = txtColecao.Name;
             colecao.DataLancamento = dtpDataLancamento.Value;
             return colecao;

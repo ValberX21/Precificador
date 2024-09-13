@@ -8,7 +8,7 @@ namespace Precificador.Core.Domain
 {
     public class Produto
     {
-        private readonly IProdutoRepository _repository;
+        private static readonly IProdutoRepository _repository;
 
         public int Id { get; set; }
         public string Nome { get; set; }

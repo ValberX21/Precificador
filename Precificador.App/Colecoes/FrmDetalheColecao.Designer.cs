@@ -52,7 +52,7 @@
             // lblDataLancamento
             // 
             this.lblDataLancamento.AutoSize = true;
-            this.lblDataLancamento.Location = new System.Drawing.Point(328, 11);
+            this.lblDataLancamento.Location = new System.Drawing.Point(328, 13);
             this.lblDataLancamento.Name = "lblDataLancamento";
             this.lblDataLancamento.Size = new System.Drawing.Size(107, 13);
             this.lblDataLancamento.TabIndex = 1;
@@ -67,7 +67,7 @@
             // 
             // dtpDataLancamento
             // 
-            this.dtpDataLancamento.Location = new System.Drawing.Point(331, 27);
+            this.dtpDataLancamento.Location = new System.Drawing.Point(331, 30);
             this.dtpDataLancamento.Name = "dtpDataLancamento";
             this.dtpDataLancamento.Size = new System.Drawing.Size(311, 20);
             this.dtpDataLancamento.TabIndex = 3;
