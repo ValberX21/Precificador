@@ -8,8 +8,4 @@
     <AnalysisLevel>latest-all</AnalysisLevel>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Repository\" />
-  </ItemGroup>
-
 </Project>
