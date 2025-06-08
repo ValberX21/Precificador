@@ -8,6 +8,8 @@
             {
                 Id = colecao.Id,
                 Nome = colecao.Nome,
+                Ano = colecao.Ano,
+                DataLancamento = colecao.DataLancamento
             };
         }
 
@@ -17,6 +19,8 @@
             {
                 Id = colecao.Id,
                 Nome = colecao.Nome,
+                Ano = colecao.Ano,
+                DataLancamento = colecao.DataLancamento
             };
         }
 

@@ -51,6 +51,8 @@ namespace Precificador.Application.Services
             }
 
             entity.Nome = value.Nome;
+            entity.Ano = value.Ano;
+            entity.DataLancamento = value.DataLancamento;
             return await _repository.UpdateAsync(entity);
         }
     }

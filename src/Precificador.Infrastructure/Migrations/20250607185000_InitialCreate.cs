@@ -14,6 +14,8 @@ namespace Precificador.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Nome = table.Column<string>(maxLength: 100, nullable: false),
+                    Ano = table.Column<int>(nullable: false),
+                    DataLancamento = table.Column<DateTime>(nullable: true),
                     DataCriacao = table.Column<DateTime>(nullable: false),
                     DataAlteracao = table.Column<DateTime>(nullable: true),
                     Ativo = table.Column<bool>(nullable: false)
