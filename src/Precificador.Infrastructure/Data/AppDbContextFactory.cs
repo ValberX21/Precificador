@@ -8,7 +8,7 @@ namespace Precificador.Infrastructure.Data
         public AppDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseSqlServer("Server=localhost;Database=FCGDb;Trusted_Connection=True;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("Server=localhost;Database=Precificador;Trusted_Connection=True;TrustServerCertificate=True");
             return new AppDbContext(optionsBuilder.Options);
         }
     }

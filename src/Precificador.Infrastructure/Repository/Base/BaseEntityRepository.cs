@@ -11,6 +11,7 @@ namespace Precificador.Infrastructure.Repository.Base
         {
             entity.Id = Guid.NewGuid();
             entity.DataCriacao = DateTime.Now;
+            entity.Ativo = true;
             return await base.AddAsync(entity);
         }
 

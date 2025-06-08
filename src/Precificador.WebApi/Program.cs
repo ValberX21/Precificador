@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Precificador.Application.Services;
 using Precificador.Domain.Repository;
 using Precificador.Infrastructure.Data;
 using Precificador.Infrastructure.Repository;
@@ -28,6 +29,12 @@ namespace Precificador.WebApi
             builder.Services.AddScoped<IProdutoMateriaPrimaRepository, ProdutoMateriaPrimaRepository>();
             builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
             builder.Services.AddScoped<IUnidadeMedidaRepository, UnidadeMedidaRepository>();
+
+            #endregion
+
+            #region Services
+
+            builder.Services.AddScoped<IColecaoService, ColecaoService>();
 
             #endregion
 
