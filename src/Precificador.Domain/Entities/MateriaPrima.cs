@@ -1,4 +1,6 @@
-﻿namespace Precificador.Domain.Entities
+﻿using Precificador.Domain.Entities.Base;
+
+namespace Precificador.Domain.Entities
 {
     public class MateriaPrima : BaseEntity
     {

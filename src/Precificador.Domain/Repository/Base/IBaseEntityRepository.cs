@@ -1,4 +1,4 @@
-﻿using Precificador.Domain.Entities;
+﻿using Precificador.Domain.Entities.Base;
 
 namespace Precificador.Domain.Repository.Base
 {

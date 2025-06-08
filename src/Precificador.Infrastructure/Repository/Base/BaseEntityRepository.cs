@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Precificador.Domain.Entities;
+using Precificador.Domain.Entities.Base;
 using Precificador.Domain.Repository.Base;
 using Precificador.Infrastructure.Data;
 
