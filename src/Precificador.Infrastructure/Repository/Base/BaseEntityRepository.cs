@@ -7,6 +7,13 @@ namespace Precificador.Infrastructure.Repository.Base
 {
     public abstract class BaseEntityRepository<T>(AppDbContext context, ILogger<T> logger) : BaseRepository<T>(context, logger), IBaseEntityRepository<T> where T : BaseEntity
     {
+        public new async Task<bool> AddAsync(T entity)
+        {
+            entity.Id = Guid.NewGuid();
+            entity.DataCriacao = DateTime.Now;
+            return await base.AddAsync(entity);
+        }
+
         public new async Task<IEnumerable<T>> GetAllAsync()
         {
             var allEntities = await base.GetAllAsync();
@@ -32,19 +39,10 @@ namespace Precificador.Infrastructure.Repository.Base
             }
         }
 
-        public async Task<bool> UpdateAsync(T entity)
+        public new async Task<bool> UpdateAsync(T entity)
         {
-            try
-            {
-                entity.DataAlteracao = DateTime.UtcNow;
-                _context.Set<T>().Update(entity);
-                return await _context.SaveChangesAsync().ContinueWith(t => t.IsCompletedSuccessfully);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Erro ao atualizar {EntityType}", typeof(T).Name);
-                return false;
-            }
+            entity.DataAlteracao = DateTime.UtcNow;
+            return await base.UpdateAsync(entity);
         }
     }
 }

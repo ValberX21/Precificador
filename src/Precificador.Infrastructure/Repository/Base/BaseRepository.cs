@@ -48,5 +48,19 @@ namespace Precificador.Infrastructure.Repository.Base
                 return null;
             }
         }
+
+        public async Task<bool> UpdateAsync(T entity)
+        {
+            try
+            {
+                _context.Set<T>().Update(entity);
+                return await _context.SaveChangesAsync().ContinueWith(t => t.IsCompletedSuccessfully);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao atualizar {EntityType}", typeof(T).Name);
+                return false;
+            }
+        }
     }
 }
