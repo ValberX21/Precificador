@@ -1,3 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Precificador.Domain.Repository;
+using Precificador.Infrastructure.Data;
+using Precificador.Infrastructure.Repository;
+using Serilog;
 
 namespace Precificador.WebApi
 {
@@ -7,13 +13,40 @@ namespace Precificador.WebApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            #region Conexão com o banco de dados
+
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            #endregion
+
+            #region Repositories
+
+            builder.Services.AddScoped<IColecaoRepository, ColecaoRepository>();
+            builder.Services.AddScoped<IGrupoRepository, GrupoRepository>();
+            builder.Services.AddScoped<IMateriaPrimaRepository, MateriaPrimaRepository>();
+            builder.Services.AddScoped<IPesquisaPrecoRepository, PesquisaPrecoRepository>();
+            builder.Services.AddScoped<IProdutoMateriaPrimaRepository, ProdutoMateriaPrimaRepository>();
+            builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            builder.Services.AddScoped<IUnidadeMedidaRepository, UnidadeMedidaRepository>();
+
+            #endregion
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
 
+            builder.Services.AddEndpointsApiExplorer();
+
+            #region Swagger
+
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Precificador WebAPI", Version = "v1" });
+            });
+
+            #endregion
+
+            Log.Logger = new LoggerConfiguration().WriteTo.File("logs/app.log", rollingInterval: RollingInterval.Day).CreateLogger();
+            
+            builder.Services.AddLogging();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -26,7 +59,6 @@ namespace Precificador.WebApi
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
