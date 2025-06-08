@@ -6,6 +6,5 @@ namespace Precificador.Domain.Repository.Base
     {
         Task<IEnumerable<T>> GetAllByNameAsync(string nome);
         Task<bool> UpdateAsync(T entity);
-        Task<bool> DeleteAsync(Guid id);
     }
 }

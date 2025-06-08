@@ -28,28 +28,7 @@ namespace Precificador.Infrastructure.Repository.Base
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro ao buscar todos os registros de {EntityType}", typeof(T).Name);
-                return Enumerable.Empty<T>();
-            }
-        }
-
-        public async Task<bool> DeleteAsync(Guid id)
-        {
-            try
-            {
-                var entity = await _context.Set<T>().FindAsync(id);
-
-                if (entity == null)
-                {
-                    return false;
-                }
-
-                entity.Ativo = false;
-                return await UpdateAsync(entity);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Erro ao deletar {EntityType}", typeof(T).Name);
-                return false;
+                return [];
             }
         }
 
