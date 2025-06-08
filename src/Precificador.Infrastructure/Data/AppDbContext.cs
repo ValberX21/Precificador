@@ -3,7 +3,7 @@ using Precificador.Domain.Entities;
 
 namespace Precificador.Infrastructure.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {
         public DbSet<Grupo> Grupos { get; set; }
         public DbSet<MateriaPrima> MateriasPrimas { get; set; }

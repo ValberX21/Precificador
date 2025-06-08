@@ -41,7 +41,7 @@ namespace Precificador.Tests.Services
         [Fact]
         public async Task DeleteAsync_ShouldReturnTrue_WhenFound()
         {
-            var entity = new Domain.Entities.Colecao { Id = Guid.NewGuid(), Ativo = true };
+            var entity = new Domain.Entities.Colecao { Id = Guid.NewGuid(), Nome = "Teste Automatizado", Ativo = true };
             _repoMock.Setup(r => r.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(entity);
             _repoMock.Setup(r => r.UpdateAsync(entity)).ReturnsAsync(true);
 
@@ -55,10 +55,10 @@ namespace Precificador.Tests.Services
         [Fact]
         public async Task GetAllAsync_ShouldReturnModels()
         {
-            _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(new List<Domain.Entities.Colecao>
-        {
+            _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(
+        [
             new Domain.Entities.Colecao { Id = Guid.NewGuid(), Nome = "X" }
-        });
+        ]);
 
             var result = await _service.GetAllAsync();
 
@@ -79,10 +79,10 @@ namespace Precificador.Tests.Services
         [Fact]
         public async Task GetAllByNameAsync_ShouldReturnModels()
         {
-            _repoMock.Setup(r => r.GetAllByNameAsync("ABC")).ReturnsAsync(new List<Domain.Entities.Colecao>
-        {
+            _repoMock.Setup(r => r.GetAllByNameAsync("ABC")).ReturnsAsync(
+        [
             new Domain.Entities.Colecao { Id = Guid.NewGuid(), Nome = "ABC" }
-        });
+        ]);
 
             var result = await _service.GetAllByNameAsync("ABC");
 

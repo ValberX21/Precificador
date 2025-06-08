@@ -4,23 +4,17 @@ using Precificador.Application.Model;
 
 namespace Precificador.WebApi.Controllers
 {
+    /// <summary>
+    /// Construtor do Controller Colecao.
+    /// </summary>
+    /// <param name="service">Serviço de aplicação para coleções.</param>
+    /// <param name="logger">Logger para rastreamento de erros.</param>
     [Route("api/[controller]")]
     [ApiController]
-    public class ColecaoController : ControllerBase
+    public class ColecaoController(IColecaoService service, ILogger<ColecaoController> logger) : ControllerBase
     {
-        private readonly IColecaoService _service;
-        private readonly ILogger<ColecaoController> _logger;
-
-        /// <summary>
-        /// Construtor do Controller Colecao.
-        /// </summary>
-        /// <param name="service">Serviço de aplicação para coleções.</param>
-        /// <param name="logger">Logger para rastreamento de erros.</param>
-        public ColecaoController(IColecaoService service, ILogger<ColecaoController> logger)
-        {
-            _service = service;
-            _logger = logger;
-        }
+        private readonly IColecaoService _service = service;
+        private readonly ILogger<ColecaoController> _logger = logger;
 
         /// <summary>
         /// Retorna a lista de todas as coleções.
@@ -58,8 +52,8 @@ namespace Precificador.WebApi.Controllers
         /// <response code="200">Coleção</response>
         /// <response code="204">Coleção não encontrada.</response>
         /// <response code="400">Erro ao buscar coleção.</response>
-        [HttpGet]
-        public async Task<IActionResult> GetById([FromBody] Guid id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
         {
             try
             {
@@ -87,8 +81,8 @@ namespace Precificador.WebApi.Controllers
         /// <response code="200">Coleção</response>
         /// <response code="204">Coleção não encontrada.</response>
         /// <response code="400">Erro ao buscar coleção.</response>
-        [HttpGet]
-        public async Task<IActionResult> GetAllByName([FromBody] string nome)
+        [HttpGet("GetByName/{nome}")]
+        public async Task<IActionResult> GetAllByName(string nome)
         {
             try
             {

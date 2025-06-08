@@ -26,7 +26,7 @@
 
         public static IList<Model.Colecao> ConvertToModel(this IEnumerable<Domain.Entities.Colecao> colecoes)
         {
-            return colecoes == null ? throw new ArgumentNullException(nameof(colecoes), "Colecoes não pode ser nulo") : (IList<Colecao>)colecoes.Select(c => c.ConvertToModel()).ToList();
+            return colecoes == null ? throw new ArgumentNullException(nameof(colecoes), "Colecoes não pode ser nulo") : (IList<Colecao>)[.. colecoes.Select(c => c.ConvertToModel())];
         }
     }
 }

@@ -44,8 +44,8 @@ namespace Precificador.Tests.Model.Extensions
         {
             var entities = new List<Precificador.Domain.Entities.Colecao>
         {
-            new Precificador.Domain.Entities.Colecao { Id = Guid.NewGuid(), Nome = "A" },
-            new Precificador.Domain.Entities.Colecao { Id = Guid.NewGuid(), Nome = "B" }
+            new() { Id = Guid.NewGuid(), Nome = "A" },
+            new() { Id = Guid.NewGuid(), Nome = "B" }
         };
             var models = entities.ConvertToModel();
             Assert.Equal(2, models.Count);

@@ -23,7 +23,7 @@ namespace Precificador.Tests.Controllers
         [Fact]
         public async Task GetAll_ShouldReturnOk_WhenFound()
         {
-            var colecoes = new List<Colecao> { new Colecao { Id = Guid.NewGuid(), Nome = "A" } };
+            var colecoes = new List<Colecao> { new() { Id = Guid.NewGuid(), Nome = "A" } };
             _serviceMock.Setup(s => s.GetAllAsync()).ReturnsAsync(colecoes);
 
             var result = await _controller.GetAll();
@@ -35,7 +35,7 @@ namespace Precificador.Tests.Controllers
         [Fact]
         public async Task GetAll_ShouldReturnNoContent_WhenNone()
         {
-            _serviceMock.Setup(s => s.GetAllAsync()).ReturnsAsync(new List<Colecao>());
+            _serviceMock.Setup(s => s.GetAllAsync()).ReturnsAsync([]);
 
             var result = await _controller.GetAll();
 
@@ -87,7 +87,7 @@ namespace Precificador.Tests.Controllers
         [Fact]
         public async Task GetAllByName_ShouldReturnOk_WhenFound()
         {
-            var colecoes = new List<Colecao> { new Colecao { Id = Guid.NewGuid(), Nome = "X" } };
+            var colecoes = new List<Colecao> { new() { Id = Guid.NewGuid(), Nome = "X" } };
             _serviceMock.Setup(s => s.GetAllByNameAsync("X")).ReturnsAsync(colecoes);
 
             var result = await _controller.GetAllByName("X");
@@ -99,7 +99,7 @@ namespace Precificador.Tests.Controllers
         [Fact]
         public async Task GetAllByName_ShouldReturnNoContent_WhenNone()
         {
-            _serviceMock.Setup(s => s.GetAllByNameAsync(It.IsAny<string>())).ReturnsAsync(new List<Colecao>());
+            _serviceMock.Setup(s => s.GetAllByNameAsync(It.IsAny<string>())).ReturnsAsync([]);
 
             var result = await _controller.GetAllByName("X");
 
