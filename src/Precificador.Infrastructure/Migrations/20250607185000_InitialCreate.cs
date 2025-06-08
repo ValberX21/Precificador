@@ -13,7 +13,10 @@ namespace Precificador.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Nome = table.Column<string>(maxLength: 100, nullable: false)
+                    Nome = table.Column<string>(maxLength: 100, nullable: false),
+                    DataCriacao = table.Column<DateTime>(nullable: false),
+                    DataAlteracao = table.Column<DateTime>(nullable: true),
+                    Ativo = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,11 +32,34 @@ namespace Precificador.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Nome = table.Column<string>(maxLength: 100, nullable: false)
+                    Nome = table.Column<string>(maxLength: 100, nullable: false),
+                    DataCriacao = table.Column<DateTime>(nullable: false),
+                    DataAlteracao = table.Column<DateTime>(nullable: true),
+                    Ativo = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Grupo", x => x.Id);
+                });
+
+            #endregion
+
+            #region Unidade de Medida
+
+            migrationBuilder.CreateTable(
+                name: "UnidadeMedida",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Nome = table.Column<string>(maxLength: 100, nullable: false),
+                    Abreviacao = table.Column<string>(maxLength: 4, nullable: false),
+                    DataCriacao = table.Column<DateTime>(nullable: false),
+                    DataAlteracao = table.Column<DateTime>(nullable: true),
+                    Ativo = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UnidadeMedida", x => x.Id);
                 });
 
             #endregion
@@ -46,16 +72,25 @@ namespace Precificador.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Nome = table.Column<string>(maxLength: 200, nullable: false),
-                    Unidade = table.Column<string>(maxLength: 50, nullable: false),
                     QtdPacote = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     VlrPacote = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     DataPreco = table.Column<DateTime>(nullable: false),
+                    UnidadeMedidaId = table.Column<Guid>(nullable: false),
                     GrupoId = table.Column<Guid>(nullable: false),
-                    VlrUnitario = table.Column<decimal>(type: "decimal(18,4)", nullable: false)
+                    VlrUnitario = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    DataCriacao = table.Column<DateTime>(nullable: false),
+                    DataAlteracao = table.Column<DateTime>(nullable: true),
+                    Ativo = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MateriaPrima", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MatPrima_UnidadeMedida",
+                        column: x => x.UnidadeMedidaId,
+                        principalTable: "UnidadeMedida",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_MatPrima_Grupo",
                         column: x => x.GrupoId,
@@ -81,7 +116,10 @@ namespace Precificador.Infrastructure.Migrations
                     PrecoFinal = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     PrecoCustoX3 = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     PrecoCustoX35 = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    PrecoCustoX4 = table.Column<decimal>(type: "decimal(18,4)", nullable: false)
+                    PrecoCustoX4 = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    DataCriacao = table.Column<DateTime>(nullable: false),
+                    DataAlteracao = table.Column<DateTime>(nullable: true),
+                    Ativo = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -104,6 +142,7 @@ namespace Precificador.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     ProdutoId = table.Column<Guid>(nullable: false),
+                    Local = table.Column<string>(maxLength: 200, nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     DataPesquisa = table.Column<DateTime>(nullable: false)
                 },

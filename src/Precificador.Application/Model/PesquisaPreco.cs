@@ -1,0 +1,37 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Precificador.Application.Model
+{
+    internal class PesquisaPreco
+    {
+        public Guid Id { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar o Id do Produto")]
+        public int ProdutoId { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar o Local")]
+        [MaxLength(200, ErrorMessage = "Local deve ter no máximo 200 caracteres")]
+        public string Local { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar o Valor do Produto")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Valor do Produto deve ser maior que zero")]
+        public decimal Valor { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar a Data da Pesquisa")]
+        [CustomValidation(typeof(PesquisaPreco), nameof(ValidateDataPesquisa))]
+        public DateTime DataPesquisa { get; set; }
+
+        public static ValidationResult ValidateDataPesquisa(DateTime data, ValidationContext context)
+        {
+            var minDate = DateTime.Now.AddMonths(-1);
+            var maxDate = DateTime.Now;
+
+            if (data < minDate || data > maxDate)
+            {
+                return new ValidationResult("Data da Pesquisa não deve ser anterior a 1 mês");
+            }
+
+            return ValidationResult.Success;
+        }
+    }
+}

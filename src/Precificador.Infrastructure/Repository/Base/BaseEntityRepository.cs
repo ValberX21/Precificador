@@ -5,18 +5,25 @@ using Precificador.Infrastructure.Data;
 
 namespace Precificador.Infrastructure.Repository.Base
 {
-    public abstract class BaseEntityRepository<T> : BaseRepository<T>, IBaseEntityRepository<T> where T : BaseEntity
+    public abstract class BaseEntityRepository<T>(AppDbContext context, ILogger<T> logger) : BaseRepository<T>(context, logger), IBaseEntityRepository<T> where T : BaseEntity
     {
-        public BaseEntityRepository(AppDbContext context, ILogger<T> logger) : base(context, logger)
+        public new async Task<IEnumerable<T>> GetAllAsync()
         {
-            //
+            var allEntities = await base.GetAllAsync();
+            return allEntities.Where(x => x.Ativo);
+        }
+
+        public new async Task<T> GetByIdAsync(Guid id)
+        {
+            var entity = await base.GetByIdAsync(id);
+            return entity != null && entity.Ativo ? entity : null;
         }
 
         public async Task<IEnumerable<T>> GetAllByNameAsync(string nome)
         {
             try
             {
-                return await Task.FromResult(_context.Set<T>().AsEnumerable().Where(x => x.Nome.Contains(nome)));
+                return await Task.FromResult(_context.Set<T>().AsEnumerable().Where(x => x.Nome.Contains(nome) && x.Ativo));
             }
             catch (Exception ex)
             {
@@ -37,7 +44,6 @@ namespace Precificador.Infrastructure.Repository.Base
                 }
 
                 entity.Ativo = false;
-                entity.DataAlteracao = DateTime.UtcNow;
                 return await UpdateAsync(entity);
             }
             catch (Exception ex)
@@ -51,6 +57,7 @@ namespace Precificador.Infrastructure.Repository.Base
         {
             try
             {
+                entity.DataAlteracao = DateTime.UtcNow;
                 _context.Set<T>().Update(entity);
                 return await _context.SaveChangesAsync().ContinueWith(t => t.IsCompletedSuccessfully);
             }

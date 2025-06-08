@@ -8,6 +8,7 @@ namespace Precificador.Domain.Entities
         public Guid Id { get; set; }
         public int ProdutoId { get; set; }
         public Produto? Produto { get; set; }
+        public required string Local { get; set; }
         public decimal Valor { get; set; }
         public DateTime DataPesquisa { get; set; }
     }

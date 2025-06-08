@@ -6,9 +6,9 @@ namespace Precificador.Domain.Entities
     {
         [Key]
         public Guid Id { get; set; }
-        public int ProdutoId { get; set; }
+        public Guid ProdutoId { get; set; }
         public Produto? Produto { get; set; }
-        public int MateriaPrimaId { get; set; }
+        public Guid MateriaPrimaId { get; set; }
         public MateriaPrima? MateriaPrima { get; set; }
         public decimal Quantidade { get; set; }
     }
