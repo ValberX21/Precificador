@@ -8,7 +8,7 @@ namespace Precificador.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ColecaoController(IColecaoService service, ILogger<ColecaoController> logger) : BaseModelController<Colecao, IColecaoService>(service, logger)
+    public class GrupoController(IGrupoService service, ILogger<GrupoController> logger) : BaseModelController<Grupo, IGrupoService>(service, logger)
     {
         //
     }

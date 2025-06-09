@@ -35,6 +35,7 @@ namespace Precificador.WebApi
             #region Services
 
             builder.Services.AddScoped<IColecaoService, ColecaoService>();
+            builder.Services.AddScoped<IGrupoService, GrupoService>();
 
             #endregion
 

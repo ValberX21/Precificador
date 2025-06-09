@@ -4,6 +4,5 @@
     {
         Task<bool> DeleteAsync(Guid id);
         Task<IEnumerable<T>> GetAllByNameAsync(string nome);
-        Task<bool> UpdateAsync(T value);
     }
 }

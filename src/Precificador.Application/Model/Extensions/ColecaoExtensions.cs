@@ -24,9 +24,9 @@
             };
         }
 
-        public static IList<Model.Colecao> ConvertToModel(this IEnumerable<Domain.Entities.Colecao> colecoes)
+        public static IList<Model.Colecao> ConvertToModel(this IEnumerable<Domain.Entities.Colecao> lista)
         {
-            return colecoes == null ? throw new ArgumentNullException(nameof(colecoes), "Colecoes não pode ser nulo") : (IList<Colecao>)[.. colecoes.Select(c => c.ConvertToModel())];
+            return lista == null ? throw new ArgumentNullException(nameof(lista), "Colecoes não pode ser nulo") : (IList<Colecao>)[.. lista.Select(c => c.ConvertToModel())];
         }
     }
 }
