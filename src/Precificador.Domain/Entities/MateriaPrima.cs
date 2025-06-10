@@ -2,8 +2,9 @@
 
 namespace Precificador.Domain.Entities
 {
-    public class MateriaPrima : BaseEntity
+    public class MateriaPrima : CrudBase
     {
+        public required string Nome { get; set; }
         public decimal QtdPacote { get; set; }
         public decimal VlrPacote { get; set; }
         public DateTime DataPreco { get; set; }

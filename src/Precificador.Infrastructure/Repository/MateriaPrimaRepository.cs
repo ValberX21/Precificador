@@ -6,7 +6,7 @@ using Precificador.Infrastructure.Repository.Base;
 
 namespace Precificador.Infrastructure.Repository
 {
-    public class MateriaPrimaRepository(AppDbContext context, ILogger<MateriaPrima> logger) : BaseEntityRepository<MateriaPrima>(context, logger), IMateriaPrimaRepository
+    public class MateriaPrimaRepository(AppDbContext context, ILogger<MateriaPrima> logger) : CrudRepositoryBase<MateriaPrima>(context, logger), IMateriaPrimaRepository
     {
     }
 }

@@ -6,7 +6,7 @@ using Precificador.Infrastructure.Repository.Base;
 
 namespace Precificador.Infrastructure.Repository
 {
-    public class PesquisaPrecoRepository(AppDbContext context, ILogger<PesquisaPreco> logger) : BaseRepository<PesquisaPreco>(context, logger), IPesquisaPrecoRepository
+    public class PesquisaPrecoRepository(AppDbContext context, ILogger<PesquisaPreco> logger) : CrudRepositoryBase<PesquisaPreco>(context, logger), IPesquisaPrecoRepository
     {
     }
 }

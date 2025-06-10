@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using Precificador.Domain.Entities.Base;
 using Precificador.Domain.Repository.Base;
 using Precificador.Infrastructure.Data;
 
 namespace Precificador.Infrastructure.Repository.Base
 {
-    public abstract class BaseRepository<T>(AppDbContext context, ILogger<T> logger) : IBaseRepository<T> where T : class
+    public abstract class CrudRepositoryBase<T>(AppDbContext context, ILogger<T> logger) : ICrudRepository<T> where T : CrudBase
     {
         protected readonly AppDbContext _context = context;
         protected readonly ILogger<T> _logger = logger;
@@ -13,6 +14,9 @@ namespace Precificador.Infrastructure.Repository.Base
         {
             try
             {
+                entity.Id = Guid.NewGuid();
+                entity.DataCriacao = DateTime.Now;
+                entity.Ativo = true;
                 await _context.Set<T>().AddAsync(entity);
                 return await _context.SaveChangesAsync().ContinueWith(t => t.IsCompletedSuccessfully);
             }
@@ -27,7 +31,7 @@ namespace Precificador.Infrastructure.Repository.Base
         {
             try
             {
-                return await Task.FromResult(_context.Set<T>().AsEnumerable());
+                return await Task.FromResult(_context.Set<T>().AsEnumerable().Where(x => x.Ativo));
             }
             catch (Exception ex)
             {
@@ -40,7 +44,8 @@ namespace Precificador.Infrastructure.Repository.Base
         {
             try
             {
-                return await _context.Set<T>().FindAsync(id);
+                var result = await _context.Set<T>().FindAsync(id);
+                return result != null && result.Ativo ? result : null;
             }
             catch (Exception ex)
             {
@@ -49,10 +54,24 @@ namespace Precificador.Infrastructure.Repository.Base
             }
         }
 
+        public async Task<IEnumerable<T>> GetAllByNameAsync(string nome)
+        {
+            try
+            {
+                return await Task.FromResult(_context.Set<T>().AsEnumerable().Where(x => x.Nome.Contains(nome) && x.Ativo));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao buscar todos os registros de {EntityType}", typeof(T).Name);
+                return [];
+            }
+        }
+
         public async Task<bool> UpdateAsync(T entity)
         {
             try
             {
+                entity.DataAlteracao = DateTime.UtcNow;
                 _context.Set<T>().Update(entity);
                 return await _context.SaveChangesAsync().ContinueWith(t => t.IsCompletedSuccessfully);
             }

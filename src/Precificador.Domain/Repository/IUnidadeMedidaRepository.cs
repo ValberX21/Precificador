@@ -3,7 +3,7 @@ using Precificador.Domain.Repository.Base;
 
 namespace Precificador.Domain.Repository
 {
-    public interface IUnidadeMedidaRepository : IBaseEntityRepository<UnidadeMedida>
+    public interface IUnidadeMedidaRepository : ICrudRepository<UnidadeMedida>
     {
     }
 }

@@ -6,7 +6,7 @@ using Precificador.Infrastructure.Repository.Base;
 
 namespace Precificador.Infrastructure.Repository
 {
-    public class ColecaoRepository(AppDbContext context, ILogger<Colecao> logger) : BaseEntityRepository<Colecao>(context, logger), IColecaoRepository
+    public class ColecaoRepository(AppDbContext context, ILogger<Colecao> logger) : CrudRepositoryBase<Colecao>(context, logger), IColecaoRepository
     {
     }
 }

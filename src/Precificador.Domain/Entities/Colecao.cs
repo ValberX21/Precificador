@@ -2,8 +2,9 @@
 
 namespace Precificador.Domain.Entities
 {
-    public class Colecao : BaseEntity
+    public class Colecao : CrudBase
     {
+        public required string Nome { get; set; }
         public int Ano { get; set; }
         public DateTime? DataLancamento { get; set; }
         public ICollection<Produto>? Produtos { get; set; }

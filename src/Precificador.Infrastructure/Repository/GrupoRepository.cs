@@ -6,7 +6,7 @@ using Precificador.Infrastructure.Repository.Base;
 
 namespace Precificador.Infrastructure.Repository
 {
-    public class GrupoRepository(AppDbContext context, ILogger<Grupo> logger) : BaseEntityRepository<Grupo>(context, logger), IGrupoRepository
+    public class GrupoRepository(AppDbContext context, ILogger<Grupo> logger) : CrudRepositoryBase<Grupo>(context, logger), IGrupoRepository
     {
     }
 }

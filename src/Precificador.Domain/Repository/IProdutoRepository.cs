@@ -3,7 +3,7 @@ using Precificador.Domain.Repository.Base;
 
 namespace Precificador.Domain.Repository
 {
-    public interface IProdutoRepository : IBaseEntityRepository<Produto>
+    public interface IProdutoRepository : ICrudRepository<Produto>
     {
     }
 }
