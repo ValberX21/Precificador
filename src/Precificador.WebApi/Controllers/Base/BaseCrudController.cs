@@ -6,7 +6,7 @@ namespace Precificador.WebApi.Controllers.Base
 {
     [Route("api/[controller]")]
     [ApiController]
-    public abstract class BaseCrudController<TModel, TService>(TService service, ILogger logger) : ControllerBase where TService : ICrudService<TModel>
+    public abstract class BaseCrudController<TModel,  TService>(TService service, ILogger logger) : ControllerBase where TService : ICrudService<TModel>
     {
         protected TService _service = service;
         protected ILogger _logger = logger;
