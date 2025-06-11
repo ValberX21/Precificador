@@ -1,18 +1,13 @@
 ﻿using Precificador.Application.Model.Base;
-using Precificador.Application.Model.Filters;
 using Precificador.Domain.Entities.Base;
+using Precificador.Domain.Filters;
 using Precificador.Domain.Repository.Base;
 
 namespace Precificador.Application.Services.Base
 {
-    public abstract class CrudServiceBase<TModel, TEntity, TRepository, TFilter> where TModel : ModelBase where TEntity : CrudBase where TRepository : ICrudRepository<TEntity, TFilter> where TFilter : IFilter
+    public abstract class CrudServiceBase<TModel, TEntity, TFilter, TRepository>(TRepository repository) where TModel : ModelBase where TEntity : CrudBase where TFilter : IFilter where TRepository : ICrudRepository<TEntity, TFilter>
     {
-        protected readonly TRepository _repository;
-
-        protected CrudServiceBase(TRepository repository)
-        {
-            _repository = repository;
-        }
+        protected readonly TRepository _repository = repository;
 
         public virtual async Task<IEnumerable<TModel>> GetAllAsync()
         {

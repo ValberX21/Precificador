@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
+using Precificador.Application.Model.Base;
 using Precificador.Application.Services.Base;
+using Precificador.Domain.Entities.Base;
+using Precificador.Domain.Filters;
+using Precificador.Domain.Repository.Base;
 
 namespace Precificador.WebApi.Controllers.Base
 {
     [Route("api/[controller]")]
     [ApiController]
-    public abstract class BaseCrudController<TModel,  TService>(TService service, ILogger logger) : ControllerBase where TService : ICrudService<TModel>
+    public abstract class BaseCrudController<TModel, TEntity, TFilter, TService, TRepository>(TService service, ILogger logger) : ControllerBase where TModel : ModelBase where TEntity : CrudBase where TFilter : IFilter where TService : ICrudService<TModel, TEntity, TFilter, TRepository> where TRepository : ICrudRepository<TEntity, TFilter>
     {
         protected TService _service = service;
         protected ILogger _logger = logger;
@@ -86,20 +89,7 @@ namespace Precificador.WebApi.Controllers.Base
         [HttpGet("ByFilter")]
         public virtual async Task<IActionResult> GetByFilterAsync([FromBody] string nome)
         {
-            try
-            {
-                var result = await _service.GetByFilterAsync(nome);
-
-                if (result == null || !((IEnumerable<TModel>)result).Any())
-                    return NoContent();
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Erro ao consultar registros.");
-                return BadRequest("Erro ao consultar registros.");
-            }
+            throw new NotImplementedException("Método GetByFilterAsync não implementado. Por favor, implemente este método na classe derivada.");
         }
 
         [HttpDelete]

@@ -1,11 +1,11 @@
 ﻿using Precificador.Application.Model.Base;
-using Precificador.Application.Model.Filters;
 using Precificador.Domain.Entities.Base;
+using Precificador.Domain.Filters;
 using Precificador.Domain.Repository.Base;
 
 namespace Precificador.Application.Services.Base
 {
-    public interface ICrudService<TModel, TEntity, TRepository, TFilter> where TModel : ModelBase where TEntity : CrudBase where TRepository : ICrudRepository<TEntity, TFilter> where TFilter : IFilter
+    public interface ICrudService<TModel, TEntity, TFilter, TRepository> where TModel : ModelBase where TEntity : CrudBase where TFilter : IFilter where TRepository : ICrudRepository<TEntity, TFilter>
     {
         Task<IList<TModel>> GetAllAsync();
         Task<TModel> GetByIdAsync(Guid id);
