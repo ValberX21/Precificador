@@ -1,8 +1,10 @@
 ﻿using Precificador.Application.Model.Filters;
+using Precificador.Domain.Entities.Base;
+using Precificador.Domain.Repository.Base;
 
 namespace Precificador.Application.Services.Base
 {
-    public class CrudServiceBase<TModel, TEntity, TRepository, TFilter> where TRepository : class where TFilter : IFilter
+    public class CrudServiceBase<TModel, TEntity, TRepository, TFilter> where TModel : class where TEntity : CrudBase where TRepository : ICrudRepository<TModel, TFilter> where TFilter : IFilter
     {
         protected readonly TRepository _repository;
 
@@ -13,15 +15,13 @@ namespace Precificador.Application.Services.Base
 
         public virtual async Task<IEnumerable<TModel>> GetAllAsync()
         {
-            // Aqui você deve implementar a conversão entre entidade e modelo.
-            // Exemplo genérico:
-            var entities = await ((dynamic)_repository).GetAllAsync();
+            var entities = await _repository.GetAllAsync();
             return ((IEnumerable<TEntity>)entities).Select(e => ConvertToModel(e));
         }
 
         public virtual async Task<TModel> GetByIdAsync(Guid id)
         {
-            var entity = await ((dynamic)_repository).GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
             return entity == null ? default : ConvertToModel((TEntity)entity);
         }
 
@@ -34,27 +34,29 @@ namespace Precificador.Application.Services.Base
         public virtual async Task<bool> AddAsync(TModel model)
         {
             var entity = ConvertToEntity(model);
-            return await ((dynamic)_repository).AddAsync(entity);
+            return await _repository.AddAsync(entity);
         }
 
         public virtual async Task<bool> UpdateAsync(TModel model)
         {
-            var entity = await ((dynamic)_repository).GetByIdAsync((Guid)model.GetType().GetProperty("Id").GetValue(model));
+            var entity = await _repository.GetByIdAsync(model.Id);
+            
             if (entity == null)
                 return false;
 
             UpdateEntityFromModel(entity, model);
-            return await ((dynamic)_repository).UpdateAsync(entity);
+            return await _repository.UpdateAsync(entity);
         }
 
         public virtual async Task<bool> DeleteAsync(Guid id)
         {
-            var entity = await ((dynamic)_repository).GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
+            
             if (entity == null)
                 return false;
 
-            ((dynamic)entity).Ativo = false;
-            return await ((dynamic)_repository).UpdateAsync(entity);
+            entity.Ativo = false;
+            return await _repository.UpdateAsync(entity);
         }
         public virtual async Task<IEnumerable<TModel>> GetByFilterAsync(TFilter filter)
         {
