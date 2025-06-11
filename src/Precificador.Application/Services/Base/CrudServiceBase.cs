@@ -1,10 +1,11 @@
-﻿using Precificador.Application.Model.Filters;
+﻿using Precificador.Application.Model.Base;
+using Precificador.Application.Model.Filters;
 using Precificador.Domain.Entities.Base;
 using Precificador.Domain.Repository.Base;
 
 namespace Precificador.Application.Services.Base
 {
-    public class CrudServiceBase<TModel, TEntity, TRepository, TFilter> where TModel : class where TEntity : CrudBase where TRepository : ICrudRepository<TModel, TFilter> where TFilter : IFilter
+    public abstract class CrudServiceBase<TModel, TEntity, TRepository, TFilter> where TModel : ModelBase where TEntity : CrudBase where TRepository : ICrudRepository<TEntity, TFilter> where TFilter : IFilter
     {
         protected readonly TRepository _repository;
 
@@ -22,13 +23,13 @@ namespace Precificador.Application.Services.Base
         public virtual async Task<TModel> GetByIdAsync(Guid id)
         {
             var entity = await _repository.GetByIdAsync(id);
-            return entity == null ? default : ConvertToModel((TEntity)entity);
+            return entity == null ? default : ConvertToModel(entity as TEntity);
         }
 
-        public virtual async Task<IEnumerable<TModel>> GetAllByNameAsync(string nome)
+        public virtual async Task<IEnumerable<TModel>> GetByFilterAsync(TFilter filter)
         {
-            var entities = await ((dynamic)_repository).GetAllByNameAsync(nome);
-            return ((IEnumerable<TEntity>)entities).Select(e => ConvertToModel(e));
+            var entities = await GetEntitiesByFilterAsync(filter);
+            return entities.Select(e => ConvertToModel(e));
         }
 
         public virtual async Task<bool> AddAsync(TModel model)
@@ -57,11 +58,6 @@ namespace Precificador.Application.Services.Base
 
             entity.Ativo = false;
             return await _repository.UpdateAsync(entity);
-        }
-        public virtual async Task<IEnumerable<TModel>> GetByFilterAsync(TFilter filter)
-        {
-            var entities = await GetEntitiesByFilterAsync(filter);
-            return entities.Select(e => ConvertToModel(e));
         }
 
         protected abstract TEntity ConvertToEntity(TModel model);
