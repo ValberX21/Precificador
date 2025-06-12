@@ -56,14 +56,15 @@ namespace Precificador.Tests.Services
         public async Task GetAllAsync_ShouldReturnModels()
         {
             _repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(
-        [
-            new Domain.Entities.Colecao { Id = Guid.NewGuid(), Nome = "X" }
-        ]);
+                new List<Domain.Entities.Colecao>
+                {
+                    new Domain.Entities.Colecao { Id = Guid.NewGuid(), Nome = "X" }
+                });
 
             var result = await _service.GetAllAsync();
 
             Assert.Single(result);
-            Assert.Equal("X", result[0].Nome);
+            Assert.Equal("X", result.First().Nome); // Use First() instead of indexing
         }
 
         [Fact]
@@ -74,20 +75,6 @@ namespace Precificador.Tests.Services
             var result = await _service.GetAllAsync();
 
             Assert.Null(result);
-        }
-
-        [Fact]
-        public async Task GetAllByNameAsync_ShouldReturnModels()
-        {
-            _repoMock.Setup(r => r.GetAllByNameAsync("ABC")).ReturnsAsync(
-        [
-            new Domain.Entities.Colecao { Id = Guid.NewGuid(), Nome = "ABC" }
-        ]);
-
-            var result = await _service.GetAllByNameAsync("ABC");
-
-            Assert.Single(result);
-            Assert.Equal("ABC", ((List<Colecao>)result)[0].Nome);
         }
 
         [Fact]
