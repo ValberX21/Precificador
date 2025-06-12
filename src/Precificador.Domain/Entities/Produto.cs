@@ -5,7 +5,7 @@ namespace Precificador.Domain.Entities
     public class Produto : CrudBase
     {
         public required string Nome { get; set; }
-        public int ColecaoId { get; set; }
+        public Guid ColecaoId { get; set; }
         public Colecao? Colecao { get; set; }
         public decimal Margem { get; set; }
         public DateTime DataCalculoPreco { get; set; }
