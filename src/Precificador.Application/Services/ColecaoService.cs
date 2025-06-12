@@ -1,5 +1,4 @@
 ﻿using Precificador.Application.Services.Base;
-using Precificador.Domain.Entities;
 using Precificador.Domain.Filters;
 using Precificador.Domain.Repository;
 
@@ -11,6 +10,7 @@ namespace Precificador.Application.Services
         {
             return new Domain.Entities.Colecao
             {
+                Id = model.Id,
                 Nome = model.Nome,
                 Ano = model.Ano,
                 DataLancamento = model.DataLancamento
@@ -21,15 +21,11 @@ namespace Precificador.Application.Services
         {
             return new Model.Colecao
             {
+                Id = entity.Id,
                 Nome = entity.Nome,
                 Ano = entity.Ano,
                 DataLancamento = entity.DataLancamento
             };
-        }
-
-        protected override Task<IEnumerable<Colecao>> GetEntitiesByFilterAsync(NomeFilter filter)
-        {
-            throw new NotImplementedException();
         }
 
         protected override void UpdateEntityFromModel(Domain.Entities.Colecao entity, Model.Colecao model)
@@ -37,6 +33,11 @@ namespace Precificador.Application.Services
             entity.Nome = model.Nome;
             entity.Ano = model.Ano;
             entity.DataLancamento = model.DataLancamento;
+        }
+
+        protected override async Task<IEnumerable<Domain.Entities.Colecao>> GetEntitiesByFilterAsync(NomeFilter filter)
+        {
+            return await _repository.GetByFilterAsync(filter);
         }
     }
 }
