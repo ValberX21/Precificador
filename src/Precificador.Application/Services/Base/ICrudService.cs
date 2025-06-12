@@ -7,7 +7,7 @@ namespace Precificador.Application.Services.Base
 {
     public interface ICrudService<TModel, TEntity, TFilter, TRepository> where TModel : ModelBase where TEntity : CrudBase where TFilter : IFilter where TRepository : ICrudRepository<TEntity, TFilter>
     {
-        Task<IList<TModel>> GetAllAsync();
+        Task<IEnumerable<TModel>> GetAllAsync();
         Task<TModel> GetByIdAsync(Guid id);
         Task<IEnumerable<TModel>> GetByFilterAsync(TFilter filter);
         Task<bool> AddAsync(TModel model);
