@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Precificador.Domain.Entities.Base;
 
 namespace Precificador.Domain.Entities
 {
-    public class ProdutoMateriaPrima
+    public class ProdutoMateriaPrima : CrudBase
     {
-        [Key]
-        public Guid Id { get; set; }
         public Guid ProdutoId { get; set; }
         public Produto? Produto { get; set; }
         public Guid MateriaPrimaId { get; set; }

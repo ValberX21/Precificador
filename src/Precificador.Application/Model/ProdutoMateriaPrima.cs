@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Precificador.Application.Model.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace Precificador.Application.Model
 {
-    public class ProdutoMateriaPrima
+    public class ProdutoMateriaPrima : ModelBase
     {
-        public Guid Id { get; set; }
-
         [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar o Id do Produto")]
         public Guid ProdutoId { get; set; }
 

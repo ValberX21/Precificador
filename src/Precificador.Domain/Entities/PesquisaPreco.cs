@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Precificador.Domain.Entities.Base;
 
 namespace Precificador.Domain.Entities
 {
-    public class PesquisaPreco
+    public class PesquisaPreco : CrudBase
     {
-        [Key]
-        public Guid Id { get; set; }
         public int ProdutoId { get; set; }
         public Produto? Produto { get; set; }
         public required string Local { get; set; }

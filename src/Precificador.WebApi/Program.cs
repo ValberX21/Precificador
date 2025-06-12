@@ -22,13 +22,13 @@ namespace Precificador.WebApi
 
             #region Repositories
 
-            //builder.Services.AddScoped<IColecaoRepository, ColecaoRepository>();
-            //builder.Services.AddScoped<IGrupoRepository, GrupoRepository>();
-            //builder.Services.AddScoped<IMateriaPrimaRepository, MateriaPrimaRepository>();
-            //builder.Services.AddScoped<IPesquisaPrecoRepository, PesquisaPrecoRepository>();
-            //builder.Services.AddScoped<IProdutoMateriaPrimaRepository, ProdutoMateriaPrimaRepository>();
-            //builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
-            //builder.Services.AddScoped<IUnidadeMedidaRepository, UnidadeMedidaRepository>();
+            builder.Services.AddScoped<IColecaoRepository, ColecaoRepository>();
+            builder.Services.AddScoped<IGrupoRepository, GrupoRepository>();
+            builder.Services.AddScoped<IMateriaPrimaRepository, MateriaPrimaRepository>();
+            builder.Services.AddScoped<IPesquisaPrecoRepository, PesquisaPrecoRepository>();
+            builder.Services.AddScoped<IProdutoMateriaPrimaRepository, ProdutoMateriaPrimaRepository>();
+            builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            builder.Services.AddScoped<IUnidadeMedidaRepository, UnidadeMedidaRepository>();
 
             #endregion
 

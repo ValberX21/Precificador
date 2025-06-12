@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Precificador.Application.Model.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace Precificador.Application.Model
 {
-    public class Produto
+    public class Produto : ModelBase
     {
-        public Guid Id { get; set; }
-        
         [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar o Nome do Produto")]
         [MaxLength(200, ErrorMessage = "Nome do Produto deve ter no máximo 200 caracteres")]
         public string Nome { get; set; }
