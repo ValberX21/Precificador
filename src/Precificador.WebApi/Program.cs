@@ -37,8 +37,8 @@ namespace Precificador.WebApi
             builder.Services.AddScoped<IColecaoService, ColecaoService>();
             builder.Services.AddScoped<IGrupoService, GrupoService>();
             builder.Services.AddScoped<IMateriaPrimaService, MateriaPrimaService>();
-            //builder.Services.AddScoped<IPesquisaPrecoService, PesquisaPrecoService>();
-            //builder.Services.AddScoped<IProdutoMateriaPrimaService, ProdutoMateriaPrimaService>();
+            builder.Services.AddScoped<IPesquisaPrecoService, PesquisaPrecoService>();
+            builder.Services.AddScoped<IProdutoMateriaPrimaService, ProdutoMateriaPrimaService>();
             builder.Services.AddScoped<IProdutoService, ProdutoService>();
             builder.Services.AddScoped<IUnidadeMedidaService, UnidadeMedidaService>();
 

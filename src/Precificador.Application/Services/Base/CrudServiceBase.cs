@@ -11,20 +11,19 @@ namespace Precificador.Application.Services.Base
 
         public virtual async Task<IEnumerable<TModel>> GetAllAsync()
         {
-            var entities = await _repository.GetAllAsync();
-            return entities == null ? default : ConvertToModel(entities);
+            return (IEnumerable<TEntity>?)await _repository.GetAllAsync() == null ? [] : ConvertToModel(await _repository.GetAllAsync());
         }
 
-        public virtual async Task<TModel> GetByIdAsync(Guid id)
+        public virtual async Task<TModel?> GetByIdAsync(Guid id)
         {
             var entity = await _repository.GetByIdAsync(id);
-            return entity == null ? default : ConvertToModel(entity as TEntity);
+            return entity == null ? null : ConvertToModel(entity as TEntity);
         }
 
         public virtual async Task<IEnumerable<TModel>> GetByFilterAsync(TFilter filter)
         {
             var entities = await GetEntitiesByFilterAsync(filter);
-            return entities == null ? default : ConvertToModel(entities);
+            return entities == null ? [] : ConvertToModel(entities);
         }
 
         public virtual async Task<bool> AddAsync(TModel model)
@@ -36,7 +35,7 @@ namespace Precificador.Application.Services.Base
         public virtual async Task<bool> UpdateAsync(TModel model)
         {
             var entity = await _repository.GetByIdAsync(model.Id);
-            
+
             if (entity == null)
                 return false;
 
@@ -47,7 +46,7 @@ namespace Precificador.Application.Services.Base
         public virtual async Task<bool> DeleteAsync(Guid id)
         {
             var entity = await _repository.GetByIdAsync(id);
-            
+
             if (entity == null)
                 return false;
 
@@ -55,9 +54,9 @@ namespace Precificador.Application.Services.Base
             return await _repository.UpdateAsync(entity);
         }
 
-        public virtual IEnumerable<TModel>ConvertToModel(IEnumerable<TEntity> entity)
+        public virtual IEnumerable<TModel> ConvertToModel(IEnumerable<TEntity> entity)
         {
-            return entity?.Select(e => ConvertToModel(e))?.ToList() ?? new List<TModel>();
+            return entity?.Select(e => ConvertToModel(e))?.ToList() ?? [];
         }
 
         protected abstract TEntity ConvertToEntity(TModel model);
