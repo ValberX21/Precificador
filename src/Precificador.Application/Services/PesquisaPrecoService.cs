@@ -4,8 +4,41 @@ using Precificador.Domain.Repository;
 
 namespace Precificador.Application.Services
 {
-    public class PesquisaPrecoService(IPesquisaPrecoRepository repository) : CrudServiceBase<Model.PesquisaPreco, Domain.Entities.PesquisaPreco, NomeFilter, IPesquisaPrecoRepository>(repository), IPesquisaPrecoService
+    public class PesquisaPrecoService(IPesquisaPrecoRepository repository) : CrudServiceBase<Model.PesquisaPreco, Domain.Entities.PesquisaPreco, PesquisaPrecoFilter, IPesquisaPrecoRepository>(repository), IPesquisaPrecoService
     {
-       
+        protected override Domain.Entities.PesquisaPreco ConvertToEntity(Model.PesquisaPreco model)
+        {
+            return new Domain.Entities.PesquisaPreco
+            {
+                ProdutoId = model.ProdutoId,
+                Local = model.Local,
+                Valor = model.Valor,
+                DataPesquisa = model.DataPesquisa
+            };
+        }
+
+        protected override Model.PesquisaPreco ConvertToModel(Domain.Entities.PesquisaPreco entity)
+        {
+            return new Model.PesquisaPreco
+            {
+                ProdutoId = entity.ProdutoId,
+                Local = entity.Local,
+                Valor = entity.Valor,
+                DataPesquisa = entity.DataPesquisa
+            };
+        }
+
+        protected override void UpdateEntityFromModel(Domain.Entities.PesquisaPreco entity, Model.PesquisaPreco model)
+        {
+            entity.ProdutoId = model.ProdutoId;
+            entity.Local = model.Local;
+            entity.Valor = model.Valor;
+            entity.DataPesquisa = model.DataPesquisa;
+        }
+
+        protected override async Task<IEnumerable<Domain.Entities.PesquisaPreco>> GetEntitiesByFilterAsync(PesquisaPrecoFilter filter)
+        {
+            return await _repository.GetByFilterAsync(filter);
+        }
     }
 }
