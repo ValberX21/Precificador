@@ -10,6 +10,7 @@ namespace Precificador.Application.Services
         {
             return new Domain.Entities.PesquisaPreco
             {
+                Id = model.Id,
                 ProdutoId = model.ProdutoId,
                 Local = model.Local,
                 Valor = model.Valor,
@@ -21,6 +22,7 @@ namespace Precificador.Application.Services
         {
             return new Model.PesquisaPreco
             {
+                Id = entity.Id,
                 ProdutoId = entity.ProdutoId,
                 Local = entity.Local,
                 Valor = entity.Valor,
