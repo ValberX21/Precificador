@@ -94,10 +94,7 @@ namespace Precificador.Infrastructure.Migrations
                     b.Property<DateTime>("DataPreco")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("GrupoId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("GrupoId1")
+                    b.Property<Guid>("GrupoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Nome")
@@ -107,10 +104,7 @@ namespace Precificador.Infrastructure.Migrations
                     b.Property<decimal>("QtdPacote")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UnidadeMedidaId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("UnidadeMedidaId1")
+                    b.Property<Guid>("UnidadeMedidaId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("VlrPacote")
@@ -118,9 +112,9 @@ namespace Precificador.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GrupoId1");
+                    b.HasIndex("GrupoId");
 
-                    b.HasIndex("UnidadeMedidaId1");
+                    b.HasIndex("UnidadeMedidaId");
 
                     b.ToTable("MateriasPrimas");
                 });
@@ -130,6 +124,15 @@ namespace Precificador.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataPesquisa")
                         .HasColumnType("datetime2");
@@ -163,10 +166,7 @@ namespace Precificador.Infrastructure.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ColecaoId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("ColecaoId1")
+                    b.Property<Guid>("ColecaoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("DataAlteracao")
@@ -190,7 +190,7 @@ namespace Precificador.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ColecaoId1");
+                    b.HasIndex("ColecaoId");
 
                     b.ToTable("Produtos");
                 });
@@ -200,6 +200,15 @@ namespace Precificador.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("MateriaPrimaId")
                         .HasColumnType("uniqueidentifier");
@@ -251,11 +260,15 @@ namespace Precificador.Infrastructure.Migrations
                 {
                     b.HasOne("Precificador.Domain.Entities.Grupo", "Grupo")
                         .WithMany("MateriasPrimas")
-                        .HasForeignKey("GrupoId1");
+                        .HasForeignKey("GrupoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Precificador.Domain.Entities.UnidadeMedida", "UnidadeMedida")
                         .WithMany()
-                        .HasForeignKey("UnidadeMedidaId1");
+                        .HasForeignKey("UnidadeMedidaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Grupo");
 
@@ -275,7 +288,9 @@ namespace Precificador.Infrastructure.Migrations
                 {
                     b.HasOne("Precificador.Domain.Entities.Colecao", "Colecao")
                         .WithMany("Produtos")
-                        .HasForeignKey("ColecaoId1");
+                        .HasForeignKey("ColecaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Colecao");
                 });
