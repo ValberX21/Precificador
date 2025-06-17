@@ -6,7 +6,7 @@ namespace Precificador.Application.Model
     public class PesquisaPreco : ModelBase
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar o Id do Produto")]
-        public int ProdutoId { get; set; }
+        public Guid ProdutoId { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar o Local")]
         [MaxLength(200, ErrorMessage = "Local deve ter no máximo 200 caracteres")]

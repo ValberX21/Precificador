@@ -12,7 +12,7 @@ using Precificador.Infrastructure.Data;
 namespace Precificador.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250613212744_InitialCreate")]
+    [Migration("20250613220808_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -144,10 +144,7 @@ namespace Precificador.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProdutoId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("ProdutoId1")
+                    b.Property<Guid>("ProdutoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Valor")
@@ -155,7 +152,7 @@ namespace Precificador.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProdutoId1");
+                    b.HasIndex("ProdutoId");
 
                     b.ToTable("PesquisasPrecos");
                 });
@@ -282,7 +279,9 @@ namespace Precificador.Infrastructure.Migrations
                 {
                     b.HasOne("Precificador.Domain.Entities.Produto", "Produto")
                         .WithMany("Pesquisas")
-                        .HasForeignKey("ProdutoId1");
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Produto");
                 });

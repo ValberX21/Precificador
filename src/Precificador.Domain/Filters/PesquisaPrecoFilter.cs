@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Precificador.Domain.Filters
+﻿namespace Precificador.Domain.Filters
 {
     public class PesquisaPrecoFilter : IFilter
     {
+        public Guid ProdutoId { get; set; }
+        public string ProdutoNome { get; set; }
+        public string Local { get; set; }
+        public DateTime DataPesquisa { get; set; }
     }
 }

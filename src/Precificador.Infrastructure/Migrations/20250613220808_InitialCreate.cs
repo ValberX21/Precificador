@@ -121,8 +121,7 @@ namespace Precificador.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProdutoId = table.Column<int>(type: "int", nullable: false),
-                    ProdutoId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProdutoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Local = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DataPesquisa = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -134,10 +133,11 @@ namespace Precificador.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_PesquisasPrecos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PesquisasPrecos_Produtos_ProdutoId1",
-                        column: x => x.ProdutoId1,
+                        name: "FK_PesquisasPrecos_Produtos_ProdutoId",
+                        column: x => x.ProdutoId,
                         principalTable: "Produtos",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -180,9 +180,9 @@ namespace Precificador.Infrastructure.Migrations
                 column: "UnidadeMedidaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PesquisasPrecos_ProdutoId1",
+                name: "IX_PesquisasPrecos_ProdutoId",
                 table: "PesquisasPrecos",
-                column: "ProdutoId1");
+                column: "ProdutoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProdutoMateriaPrimas_MateriaPrimaId",
