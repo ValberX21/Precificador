@@ -11,13 +11,13 @@ namespace Precificador.Tests.WebApi.Controllers
     public class GrupoControllerTests
     {
         private readonly Mock<IGrupoService> _serviceMock;
-        private readonly Mock<ILogger> _loggerMock;
+        private readonly Mock<ILogger<GrupoController>> _loggerMock;
         private readonly GrupoController _controller;
 
         public GrupoControllerTests()
         {
             _serviceMock = new Mock<IGrupoService>();
-            _loggerMock = new Mock<ILogger>();
+            _loggerMock = new Mock<ILogger<GrupoController>>();
             _controller = new GrupoController(_serviceMock.Object, _loggerMock.Object);
         }
 

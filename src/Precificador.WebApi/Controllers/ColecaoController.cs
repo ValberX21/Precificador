@@ -9,7 +9,7 @@ namespace Precificador.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ColecaoController(IColecaoService service, ILogger logger) : BaseCrudController<Application.Model.Colecao, Domain.Entities.Colecao, NomeFilter, IColecaoService, IColecaoRepository>(service, logger)
+    public class ColecaoController(IColecaoService service, ILogger<ColecaoController> logger) : BaseCrudController<Application.Model.Colecao, Domain.Entities.Colecao, NomeFilter, IColecaoService, IColecaoRepository>(service, logger)
     {
 
     }

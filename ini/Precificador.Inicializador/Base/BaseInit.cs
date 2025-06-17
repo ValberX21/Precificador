@@ -45,7 +45,8 @@ namespace Precificador.Inicializador.Base
             else
             {
                 Console.WriteLine($"Erro ao verificar existência: {response.ErrorMessage}");
-                throw new Exception($"Erro ao verificar existência: {response.ErrorMessage}");
+                return false;
+                //throw new Exception($"Erro ao verificar existência: {response.ErrorMessage}");
             }
         }
     }

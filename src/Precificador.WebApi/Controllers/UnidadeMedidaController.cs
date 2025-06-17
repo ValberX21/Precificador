@@ -9,7 +9,7 @@ namespace Precificador.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UnidadeMedidaController(IUnidadeMedidaService service, ILogger logger) : BaseCrudController<Application.Model.UnidadeMedida, Domain.Entities.UnidadeMedida, NomeFilter, IUnidadeMedidaService, IUnidadeMedidaRepository>(service, logger)
+    public class UnidadeMedidaController(IUnidadeMedidaService service, ILogger<UnidadeMedidaController> logger) : BaseCrudController<Application.Model.UnidadeMedida, Domain.Entities.UnidadeMedida, NomeFilter, IUnidadeMedidaService, IUnidadeMedidaRepository>(service, logger)
     {
 
     }

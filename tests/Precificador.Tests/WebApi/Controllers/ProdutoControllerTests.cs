@@ -11,13 +11,13 @@ namespace Precificador.Tests.WebApi.Controllers
     public class ProdutoControllerTests
     {
         private readonly Mock<IProdutoService> _serviceMock;
-        private readonly Mock<ILogger> _loggerMock;
+        private readonly Mock<ILogger<ProdutoController>> _loggerMock;
         private readonly ProdutoController _controller;
 
         public ProdutoControllerTests()
         {
             _serviceMock = new Mock<IProdutoService>();
-            _loggerMock = new Mock<ILogger>();
+            _loggerMock = new Mock<ILogger<ProdutoController>>();
             _controller = new ProdutoController(_serviceMock.Object, _loggerMock.Object);
         }
 

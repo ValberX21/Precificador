@@ -9,7 +9,7 @@ namespace Precificador.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MateriaPrimaController(IMateriaPrimaService service, ILogger logger) : BaseCrudController<Application.Model.MateriaPrima, Domain.Entities.MateriaPrima, NomeFilter, IMateriaPrimaService, IMateriaPrimaRepository>(service, logger)
+    public class MateriaPrimaController(IMateriaPrimaService service, ILogger<MateriaPrimaController> logger) : BaseCrudController<Application.Model.MateriaPrima, Domain.Entities.MateriaPrima, NomeFilter, IMateriaPrimaService, IMateriaPrimaRepository>(service, logger)
     {
 
     }

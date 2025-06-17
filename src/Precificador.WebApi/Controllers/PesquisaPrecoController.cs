@@ -9,7 +9,7 @@ namespace Precificador.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PesquisaPrecoController(IPesquisaPrecoService service, ILogger logger) : BaseCrudController<Application.Model.PesquisaPreco, Domain.Entities.PesquisaPreco, PesquisaPrecoFilter, IPesquisaPrecoService, IPesquisaPrecoRepository>(service, logger)
+    public class PesquisaPrecoController(IPesquisaPrecoService service, ILogger<PesquisaPrecoController> logger) : BaseCrudController<Application.Model.PesquisaPreco, Domain.Entities.PesquisaPreco, PesquisaPrecoFilter, IPesquisaPrecoService, IPesquisaPrecoRepository>(service, logger)
     {
 
     }

@@ -9,7 +9,7 @@ namespace Precificador.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GrupoController(IGrupoService service, ILogger logger) : BaseCrudController<Application.Model.Grupo, Domain.Entities.Grupo, NomeFilter, IGrupoService, IGrupoRepository>(service, logger)
+    public class GrupoController(IGrupoService service, ILogger<GrupoController> logger) : BaseCrudController<Application.Model.Grupo, Domain.Entities.Grupo, NomeFilter, IGrupoService, IGrupoRepository>(service, logger)
     {
 
     }
