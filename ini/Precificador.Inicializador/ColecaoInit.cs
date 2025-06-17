@@ -1,13 +1,15 @@
 ﻿using Precificador.Application.Model;
-
-using RestSharp;
+using Precificador.Inicializador.Base;
 
 namespace Precificador.Inicializador
 {
-    public class ColecaoInit
+    public class ColecaoInit : BaseInit<Colecao>
     {
-        private List<Colecao> colecoes =
-        [
+        protected override string Endpoint => "Colecao";
+        protected override IEnumerable<Colecao> Items => colecoes;
+
+        private readonly List<Colecao> colecoes = new()
+        {
             new Colecao { Nome = "Mulher 2025", Ano = 2025 },
             new Colecao { Nome = "Volta às Aulas 2025", Ano = 2025 },
             new Colecao { Nome = "Coleção 2025", Ano = 2025 },
@@ -37,47 +39,11 @@ namespace Precificador.Inicializador
             new Colecao { Nome = "Volta às Aulas23", Ano = 2023 },
             new Colecao { Nome = "Coleção 2023", Ano = 2023 },
             new Colecao { Nome = "Natal 2022", Ano = 2022 }
-        ];
+        };
 
-        public void Inicializar()
-        {
-            foreach (var colecao in colecoes)
-            {
-                if (!VerificaExistencia(colecao.Nome))
-                {
-                    IncluirColecao(colecao);
-                }
-            }
-        }
+        protected override string GetNome(Colecao item) => item.Nome;
 
-        private void IncluirColecao(Colecao colecao)
-        {
-            var options = new RestClientOptions("https://localhost:7013");
-            var client = new RestClient(options);
-            var request = new RestRequest("/api/Colecao", Method.Post);
-            request.AddHeader("Content-Type", "application/json");
-            var body = @"{" + "\"nome\": \"" + colecao.Nome + "\", \"ano\": " + colecao.Ano.ToString() + @"}";
-            request.AddStringBody(body, DataFormat.Json);
-            RestResponse response = client.Execute(request);
-            Console.WriteLine(response.Content);
-        }
-
-        private bool VerificaExistencia(string nome)
-        {
-            var options = new RestClientOptions("https://localhost:7013");
-            var client = new RestClient(options);
-            var request = new RestRequest("/api/Colecao/ByFilter", Method.Get);
-            RestResponse response = client.Execute(request);
-
-            if (response.IsSuccessStatusCode)
-            {
-                return !string.IsNullOrEmpty(response.Content);
-            }
-            else
-            {
-                Console.WriteLine($"Erro ao verificar existência da coleção: {response.ErrorMessage}");
-                throw new Exception($"Erro ao verificar existência da coleção: {response.ErrorMessage}");
-            }
-        }
+        protected override string BuildBody(Colecao item)
+            => $"{{\"nome\": \"{item.Nome}\", \"ano\": {item.Ano}}}";
     }
 }
