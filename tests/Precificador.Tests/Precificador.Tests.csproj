@@ -35,8 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Model\" />
-    <Folder Include="Application\Services\" />
     <Folder Include="Infrastructure\Data\" />
     <Folder Include="Infrastructure\Repository\" />
     <Folder Include="WebApi\Controllers\" />
