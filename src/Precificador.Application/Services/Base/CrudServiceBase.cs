@@ -54,6 +54,11 @@ namespace Precificador.Application.Services.Base
             return await _repository.UpdateAsync(entity);
         }
 
+        private async Task<IEnumerable<TEntity>> GetEntitiesByFilterAsync(TFilter filter)
+        {
+            return await _repository.GetByFilterAsync(filter);
+        }
+
         public virtual IEnumerable<TModel> ConvertToModel(IEnumerable<TEntity> entity)
         {
             return entity?.Select(e => ConvertToModel(e))?.ToList() ?? [];
@@ -62,6 +67,5 @@ namespace Precificador.Application.Services.Base
         protected abstract TEntity ConvertToEntity(TModel model);
         protected abstract TModel ConvertToModel(TEntity entity);
         protected abstract void UpdateEntityFromModel(TEntity entity, TModel model);
-        protected abstract Task<IEnumerable<TEntity>> GetEntitiesByFilterAsync(TFilter filter);
     }
 }

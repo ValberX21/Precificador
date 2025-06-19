@@ -31,10 +31,5 @@ namespace Precificador.Application.Services
             entity.Nome = model.Nome;
             entity.Abrebiacao = model.Abreviacao;
         }
-
-        protected override async Task<IEnumerable<Domain.Entities.UnidadeMedida>> GetEntitiesByFilterAsync(NomeFilter filter)
-        {
-            return await _repository.GetByFilterAsync(filter);
-        }
     }
 }

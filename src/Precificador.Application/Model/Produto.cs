@@ -7,7 +7,7 @@ namespace Precificador.Application.Model
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar o Nome do Produto")]
         [MaxLength(200, ErrorMessage = "Nome do Produto deve ter no máximo 200 caracteres")]
-        public string Nome { get; set; }
+        public required string Nome { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar o Id da Coleção")]
         public Guid ColecaoId { get; set; }

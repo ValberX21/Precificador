@@ -26,8 +26,8 @@ namespace Precificador.Tests.WebApi.Controllers
         {
             var colecoes = new List<Colecao>
             {
-                new Colecao { Id = Guid.NewGuid(), Nome = "Coleção 1", Ano = 2024 },
-                new Colecao { Id = Guid.NewGuid(), Nome = "Coleção 2", Ano = 2023 }
+                new() { Id = Guid.NewGuid(), Nome = "Coleção 1", Ano = 2024 },
+                new() { Id = Guid.NewGuid(), Nome = "Coleção 2", Ano = 2023 }
             };
             _serviceMock.Setup(s => s.GetAllAsync()).ReturnsAsync(colecoes);
 
@@ -133,9 +133,9 @@ namespace Precificador.Tests.WebApi.Controllers
             var nome = "Coleção";
             var colecoes = new List<Colecao>
             {
-                new Colecao { Id = Guid.NewGuid(), Nome = "Coleção 1", Ano = 2024 }
+                new() { Id = Guid.NewGuid(), Nome = "Coleção 1", Ano = 2024 }
             };
-            _serviceMock.Setup(s => s.GetByFilterAsync(It.Is<NomeFilter>(f => f.Nome == nome))).ReturnsAsync(colecoes);
+            _serviceMock.Setup(s => s.GetByFilterAsync(It.Is<ColecaoFilter>(f => f.Nome == nome))).ReturnsAsync(colecoes);
 
             var result = await _controller.GetByFilterAsync(nome);
 

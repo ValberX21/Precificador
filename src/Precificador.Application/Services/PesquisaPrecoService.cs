@@ -37,10 +37,5 @@ namespace Precificador.Application.Services
             entity.Valor = model.Valor;
             entity.DataPesquisa = model.DataPesquisa;
         }
-
-        protected override async Task<IEnumerable<Domain.Entities.PesquisaPreco>> GetEntitiesByFilterAsync(PesquisaPrecoFilter filter)
-        {
-            return await _repository.GetByFilterAsync(filter);
-        }
     }
 }

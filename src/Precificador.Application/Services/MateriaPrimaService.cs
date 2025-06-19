@@ -44,10 +44,5 @@ namespace Precificador.Application.Services
             entity.GrupoId = model.GrupoId;
             entity.UnidadeMedidaId = model.UnidadeMedidaId;
         }
-
-        protected override async Task<IEnumerable<Domain.Entities.MateriaPrima>> GetEntitiesByFilterAsync(NomeFilter filter)
-        {
-            return await _repository.GetByFilterAsync(filter);
-        }
     }
 }

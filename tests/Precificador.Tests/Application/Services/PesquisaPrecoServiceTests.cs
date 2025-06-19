@@ -92,7 +92,7 @@ namespace Precificador.Tests.Application.Services
             var filter = new PesquisaPrecoFilter { ProdutoNome = "Arroz", Local = "Mercado" };
             var entities = new List<Domain.Entities.PesquisaPreco>
             {
-                new Domain.Entities.PesquisaPreco { Id = Guid.NewGuid(), Local = "Mercado" }
+                new() { Id = Guid.NewGuid(), Local = "Mercado" }
             };
             _repositoryMock.Setup(r => r.GetByFilterAsync(filter)).ReturnsAsync(entities);
 
@@ -107,24 +107,34 @@ namespace Precificador.Tests.Application.Services
     // Métodos auxiliares para acessar membros protegidos via reflexão
     public static class PesquisaPrecoServiceTestExtensions
     {
-        public static Domain.Entities.PesquisaPreco InvokeConvertToEntity(this PesquisaPrecoService service, PesquisaPreco model)
-            => (Domain.Entities.PesquisaPreco)typeof(PesquisaPrecoService)
-                .GetMethod("ConvertToEntity", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { model });
+        public static Domain.Entities.PesquisaPreco? InvokeConvertToEntity(this PesquisaPrecoService service, PesquisaPreco model)
+        {
+            var methodInfo = typeof(PesquisaPrecoService).GetMethod("ConvertToEntity", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            return methodInfo == null
+                ? throw new InvalidOperationException("Method 'ConvertToEntity' not found.")
+                : (Domain.Entities.PesquisaPreco?)methodInfo.Invoke(service, [model]);
+        }
 
-        public static PesquisaPreco InvokeConvertToModel(this PesquisaPrecoService service, Domain.Entities.PesquisaPreco entity)
-            => (PesquisaPreco)typeof(PesquisaPrecoService)
-                .GetMethod("ConvertToModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { entity });
+        public static PesquisaPreco? InvokeConvertToModel(this PesquisaPrecoService service, Domain.Entities.PesquisaPreco entity)
+        {
+            var methodInfo = typeof(PesquisaPrecoService).GetMethod("ConvertToModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            return methodInfo == null
+                ? throw new InvalidOperationException("Method 'ConvertToModel' not found.")
+                : (PesquisaPreco?)methodInfo.Invoke(service, [entity]);
+        }
 
         public static void InvokeUpdateEntityFromModel(this PesquisaPrecoService service, Domain.Entities.PesquisaPreco entity, PesquisaPreco model)
-            => typeof(PesquisaPrecoService)
-                .GetMethod("UpdateEntityFromModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { entity, model });
+        {
+            var methodInfo = typeof(PesquisaPrecoService).GetMethod("UpdateEntityFromModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'UpdateEntityFromModel' not found.");
+            methodInfo.Invoke(service, [entity, model]);
+        }
 
         public static Task<IEnumerable<Domain.Entities.PesquisaPreco>> InvokeGetEntitiesByFilterAsync(this PesquisaPrecoService service, PesquisaPrecoFilter filter)
-            => (Task<IEnumerable<Domain.Entities.PesquisaPreco>>)typeof(PesquisaPrecoService)
-                .GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { filter });
+        {
+            var methodInfo = typeof(PesquisaPrecoService).GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            return methodInfo == null
+                ? throw new InvalidOperationException("Method 'GetEntitiesByFilterAsync' not found.")
+                : (Task<IEnumerable<Domain.Entities.PesquisaPreco>>)methodInfo.Invoke(service, [filter])!;
+        }
     }
 }

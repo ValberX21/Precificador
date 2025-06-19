@@ -26,8 +26,8 @@ namespace Precificador.Tests.WebApi.Controllers
         {
             var unidades = new List<UnidadeMedida>
             {
-                new UnidadeMedida { Id = Guid.NewGuid(), Nome = "Litro", Abreviacao = "L" },
-                new UnidadeMedida { Id = Guid.NewGuid(), Nome = "Quilo", Abreviacao = "Kg" }
+                new() { Id = Guid.NewGuid(), Nome = "Litro", Abreviacao = "L" },
+                new() { Id = Guid.NewGuid(), Nome = "Quilo", Abreviacao = "Kg" }
             };
             _serviceMock.Setup(s => s.GetAllAsync()).ReturnsAsync(unidades);
 
@@ -54,7 +54,7 @@ namespace Precificador.Tests.WebApi.Controllers
         public async Task GetById_DeveRetornarNotFoundSeNaoEncontrado()
         {
             var id = Guid.NewGuid();
-            _serviceMock.Setup(s => s.GetByIdAsync(id)).ReturnsAsync((UnidadeMedida)null);
+            _serviceMock.Setup(s => s.GetByIdAsync(id)).ReturnsAsync((UnidadeMedida?)null!);
 
             var result = await _controller.GetById(id);
 
@@ -133,7 +133,7 @@ namespace Precificador.Tests.WebApi.Controllers
             var nome = "Litro";
             var unidades = new List<UnidadeMedida>
             {
-                new UnidadeMedida { Id = Guid.NewGuid(), Nome = "Litro", Abreviacao = "L" }
+                new() { Id = Guid.NewGuid(), Nome = "Litro", Abreviacao = "L" }
             };
             _serviceMock.Setup(s => s.GetByFilterAsync(It.Is<NomeFilter>(f => f.Nome == nome))).ReturnsAsync(unidades);
 

@@ -7,6 +7,6 @@ namespace Precificador.Application.Model
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar o Nome do Grupo")]
         [MaxLength(100, ErrorMessage = "Nome do Grupo deve ter no máximo 100 caracteres")]
-        public string Nome { get; set; }
+        public required string Nome { get; set; }
     }
 }

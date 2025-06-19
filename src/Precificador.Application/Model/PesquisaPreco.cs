@@ -10,7 +10,7 @@ namespace Precificador.Application.Model
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar o Local")]
         [MaxLength(200, ErrorMessage = "Local deve ter no máximo 200 caracteres")]
-        public string Local { get; set; }
+        public required string Local { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar o Valor do Produto")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Valor do Produto deve ser maior que zero")]
@@ -20,17 +20,14 @@ namespace Precificador.Application.Model
         [CustomValidation(typeof(PesquisaPreco), nameof(ValidateDataPesquisa))]
         public DateTime DataPesquisa { get; set; }
 
-        public static ValidationResult ValidateDataPesquisa(DateTime data, ValidationContext context)
+        public static ValidationResult ValidateDataPesquisa(DateTime data)
         {
             var minDate = DateTime.Now.AddMonths(-1);
             var maxDate = DateTime.Now;
 
-            if (data < minDate || data > maxDate)
-            {
-                return new ValidationResult("Data da Pesquisa não deve ser anterior a 1 mês");
-            }
-
-            return ValidationResult.Success;
+            return data < minDate || data > maxDate
+                ? new ValidationResult("Data da Pesquisa não deve ser anterior a 1 mês")
+                : ValidationResult.Success!;
         }
     }
 }

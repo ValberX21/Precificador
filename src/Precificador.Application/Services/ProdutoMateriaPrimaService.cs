@@ -34,10 +34,5 @@ namespace Precificador.Application.Services
             entity.MateriaPrimaId = model.MateriaPrimaId;
             entity.Quantidade = model.Quantidade;
         }
-
-        protected override async Task<IEnumerable<Domain.Entities.ProdutoMateriaPrima>> GetEntitiesByFilterAsync(ProdutoMateriaPrimaFilter filter)
-        {
-            return await _repository.GetByFilterAsync(filter);
-        }
     }
 }

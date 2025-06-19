@@ -15,7 +15,7 @@ namespace Precificador.Infrastructure.Repository.Base
         {
             try
             {
-                return await Task.FromResult(_context.Set<TModel>().AsEnumerable().Where(x => x.Ativo));
+                return await Task.FromResult(_context.Set<TModel>().AsEnumerable().Where(x => x.Ativo)).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -24,11 +24,11 @@ namespace Precificador.Infrastructure.Repository.Base
             }
         }
 
-        public async Task<TModel> GetByIdAsync(Guid id)
+        public async Task<TModel?> GetByIdAsync(Guid id)
         {
             try
             {
-                var result = await _context.Set<TModel>().FindAsync(id);
+                var result = await _context.Set<TModel>().FindAsync(id).ConfigureAwait(false);
                 return result != null && result.Ativo ? result : null;
             }
             catch (Exception ex)
@@ -38,16 +38,21 @@ namespace Precificador.Infrastructure.Repository.Base
             }
         }
 
-
         public async Task<bool> AddAsync(TModel entity)
         {
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity), "The entity cannot be null.");
+            }
+
             try
             {
                 entity.Id = Guid.NewGuid();
                 entity.DataCriacao = DateTime.Now;
                 entity.Ativo = true;
-                await _context.Set<TModel>().AddAsync(entity);
-                return await _context.SaveChangesAsync().ContinueWith(t => t.IsCompletedSuccessfully);
+                await _context.Set<TModel>().AddAsync(entity).ConfigureAwait(false);
+                var saveResult = await _context.SaveChangesAsync().ConfigureAwait(false);
+                return saveResult > 0;
             }
             catch (Exception ex)
             {
@@ -56,18 +61,19 @@ namespace Precificador.Infrastructure.Repository.Base
             }
         }
 
-        public async Task<IEnumerable<TModel>> GetByFilterAsync(TFilter filter)
-        {
-            throw new NotImplementedException("Método GetByFilterAsync não implementado para o repositório base. Deve ser implementado nas classes derivadas.");
-        }
-
         public async Task<bool> UpdateAsync(TModel entity)
         {
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity), "The entity cannot be null.");
+            }
+
             try
             {
                 entity.DataAlteracao = DateTime.UtcNow;
                 _context.Set<TModel>().Update(entity);
-                return await _context.SaveChangesAsync().ContinueWith(t => t.IsCompletedSuccessfully);
+                var saveResult = await _context.SaveChangesAsync().ConfigureAwait(false);
+                return saveResult > 0;
             }
             catch (Exception ex)
             {
@@ -78,9 +84,9 @@ namespace Precificador.Infrastructure.Repository.Base
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var entity = await GetByIdAsync(id);
+            var entity = await GetByIdAsync(id).ConfigureAwait(false);
 
-            if(entity == null)
+            if (entity == null)
             {
                 _logger.LogWarning("Tentativa de deletar {EntityType} com ID {Id} que não existe", typeof(TModel).Name, id);
                 return false;
@@ -90,7 +96,7 @@ namespace Precificador.Infrastructure.Repository.Base
 
             try
             {
-                return await UpdateAsync(entity);
+                return await UpdateAsync(entity).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -98,5 +104,7 @@ namespace Precificador.Infrastructure.Repository.Base
                 return false;
             }
         }
+
+        public abstract Task<IEnumerable<TModel>> GetByFilterAsync(TFilter filter);
     }
 }

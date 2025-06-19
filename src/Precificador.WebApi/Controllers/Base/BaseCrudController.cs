@@ -4,6 +4,7 @@ using Precificador.Application.Services.Base;
 using Precificador.Domain.Entities.Base;
 using Precificador.Domain.Filters;
 using Precificador.Domain.Repository.Base;
+using System.Text.Json;
 
 namespace Precificador.WebApi.Controllers.Base
 {
@@ -21,10 +22,7 @@ namespace Precificador.WebApi.Controllers.Base
             {
                 var result = await _service.GetAllAsync();
 
-                if (result == null || !((IEnumerable<TModel>)result).Any())
-                    return NoContent();
-
-                return Ok(result);
+                return result == null || !((IEnumerable<TModel>)result).Any() ? NoContent() : Ok(result);
             }
             catch (Exception ex)
             {
@@ -40,10 +38,7 @@ namespace Precificador.WebApi.Controllers.Base
             {
                 var result = await _service.GetByIdAsync(id);
 
-                if (result == null)
-                    return NoContent();
-
-                return Ok(result);
+                return result == null ? NoContent() : Ok(result);
             }
             catch (Exception ex)
             {
@@ -74,10 +69,7 @@ namespace Precificador.WebApi.Controllers.Base
             {
                 var result = await _service.UpdateAsync(value);
 
-                if (!(bool)result)
-                    return NoContent();
-
-                return Ok(result);
+                return !(bool)result ? NoContent() : Ok(result);
             }
             catch (Exception ex)
             {
@@ -87,9 +79,31 @@ namespace Precificador.WebApi.Controllers.Base
         }
 
         [HttpGet("ByFilter")]
-        public virtual async Task<IActionResult> GetByFilterAsync([FromBody] string nome)
+        public virtual async Task<IActionResult> GetByFilterAsync([FromBody] string param)
         {
-            throw new NotImplementedException("Método GetByFilterAsync não implementado. Por favor, implemente este método na classe derivada.");
+            try
+            {
+                if (string.IsNullOrWhiteSpace(param))
+                {
+                    return BadRequest("Filter parameter cannot be null or empty.");
+                }
+
+                var filter = JsonSerializer.Deserialize<TFilter>(param);
+
+                if (filter == null)
+                {
+                    return BadRequest("Failed to deserialize filter parameter.");
+                }
+
+                var result = await _service.GetByFilterAsync(filter);
+
+                return result == null || !((IEnumerable<TModel>)result).Any() ? NoContent() : Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao listar registros.");
+                return BadRequest("Erro ao listar registros.");
+            }
         }
 
         [HttpDelete]
@@ -99,10 +113,7 @@ namespace Precificador.WebApi.Controllers.Base
             {
                 var result = await _service.DeleteAsync(id);
 
-                if (!(bool)result)
-                    return NoContent();
-
-                return Ok(result);
+                return !(bool)result ? NoContent() : Ok(result);
             }
             catch (Exception ex)
             {

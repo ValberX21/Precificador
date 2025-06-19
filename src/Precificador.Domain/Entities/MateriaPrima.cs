@@ -15,6 +15,6 @@ namespace Precificador.Domain.Entities
         public Guid UnidadeMedidaId { get; set; }
         public UnidadeMedida? UnidadeMedida { get; set; }
 
-        public ICollection<ProdutoMateriaPrima>? Produtos { get; set; }
+        public ICollection<ProdutoMateriaPrima>? Produtos { get; }
     }
 }

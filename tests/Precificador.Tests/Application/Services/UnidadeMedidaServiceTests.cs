@@ -29,7 +29,8 @@ namespace Precificador.Tests.Application.Services
 
             var entity = _service.InvokeConvertToEntity(model);
 
-            Assert.Equal(model.Id, entity.Id);
+            Assert.NotNull(entity); // Ensure entity is not null before dereferencing  
+            Assert.Equal(model.Id, entity!.Id);
             Assert.Equal(model.Nome, entity.Nome);
             Assert.Equal(model.Abreviacao, entity.Abrebiacao);
         }
@@ -46,7 +47,8 @@ namespace Precificador.Tests.Application.Services
 
             var model = _service.InvokeConvertToModel(entity);
 
-            Assert.Equal(entity.Id, model.Id);
+            Assert.NotNull(model); // Ensure model is not null before dereferencing  
+            Assert.Equal(entity.Id, model!.Id);
             Assert.Equal(entity.Nome, model.Nome);
             Assert.Equal(entity.Abrebiacao, model.Abreviacao);
         }
@@ -68,6 +70,7 @@ namespace Precificador.Tests.Application.Services
 
             _service.InvokeUpdateEntityFromModel(entity, model);
 
+            Assert.NotNull(entity); // Ensure entity is not null before dereferencing  
             Assert.Equal(model.Nome, entity.Nome);
             Assert.Equal(model.Abreviacao, entity.Abrebiacao);
         }
@@ -78,39 +81,50 @@ namespace Precificador.Tests.Application.Services
             var filter = new NomeFilter { Nome = "Filtro" };
             var entities = new List<Domain.Entities.UnidadeMedida>
             {
-                new Domain.Entities.UnidadeMedida { Id = Guid.NewGuid(), Nome = "Unidade 1", Abrebiacao = "U1" }
+                new() { Id = Guid.NewGuid(), Nome = "Unidade 1", Abrebiacao = "U1" }
             };
             _repositoryMock.Setup(r => r.GetByFilterAsync(filter)).ReturnsAsync(entities);
 
             var result = await _service.InvokeGetEntitiesByFilterAsync(filter);
 
-            Assert.Single(result);
+            Assert.NotNull(result); // Ensure result is not null before dereferencing  
+            Assert.Single(result!);
             Assert.Equal("Unidade 1", ((List<Domain.Entities.UnidadeMedida>)result)[0].Nome);
             _repositoryMock.Verify(r => r.GetByFilterAsync(filter), Times.Once);
         }
     }
 
-    // Métodos auxiliares para acessar membros protegidos via reflexão
     public static class UnidadeMedidaServiceTestExtensions
     {
-        public static Domain.Entities.UnidadeMedida InvokeConvertToEntity(this UnidadeMedidaService service, UnidadeMedida model)
-            => (Domain.Entities.UnidadeMedida)typeof(UnidadeMedidaService)
-                .GetMethod("ConvertToEntity", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { model });
+        public static Domain.Entities.UnidadeMedida? InvokeConvertToEntity(this UnidadeMedidaService service, UnidadeMedida model)
+        {
+            var methodInfo = typeof(UnidadeMedidaService)
+                .GetMethod("ConvertToEntity", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'ConvertToEntity' not found.");
+            var result = methodInfo.Invoke(service, [model]);
+            return result as Domain.Entities.UnidadeMedida;
+        }
 
-        public static UnidadeMedida InvokeConvertToModel(this UnidadeMedidaService service, Domain.Entities.UnidadeMedida entity)
-            => (UnidadeMedida)typeof(UnidadeMedidaService)
-                .GetMethod("ConvertToModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { entity });
+        public static UnidadeMedida? InvokeConvertToModel(this UnidadeMedidaService service, Domain.Entities.UnidadeMedida entity)
+        {
+            var methodInfo = typeof(UnidadeMedidaService)
+                .GetMethod("ConvertToModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'ConvertToModel' not found.");
+            var result = methodInfo.Invoke(service, [entity]);
+            return result as UnidadeMedida;
+        }
 
         public static void InvokeUpdateEntityFromModel(this UnidadeMedidaService service, Domain.Entities.UnidadeMedida entity, UnidadeMedida model)
-            => typeof(UnidadeMedidaService)
-                .GetMethod("UpdateEntityFromModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { entity, model });
+        {
+            var methodInfo = typeof(UnidadeMedidaService)
+                .GetMethod("UpdateEntityFromModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'UpdateEntityFromModel' not found.");
+            methodInfo.Invoke(service, [entity, model]);
+        }
 
         public static Task<IEnumerable<Domain.Entities.UnidadeMedida>> InvokeGetEntitiesByFilterAsync(this UnidadeMedidaService service, NomeFilter filter)
-            => (Task<IEnumerable<Domain.Entities.UnidadeMedida>>)typeof(UnidadeMedidaService)
-                .GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { filter });
+        {
+            var methodInfo = typeof(UnidadeMedidaService)
+                .GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'GetEntitiesByFilterAsync' not found.");
+            var result = methodInfo.Invoke(service, [filter]);
+            return result as Task<IEnumerable<Domain.Entities.UnidadeMedida>> ?? Task.FromResult(Enumerable.Empty<Domain.Entities.UnidadeMedida>());
+        }
     }
 }

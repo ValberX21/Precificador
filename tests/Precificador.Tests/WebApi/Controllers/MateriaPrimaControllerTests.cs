@@ -26,8 +26,8 @@ namespace Precificador.Tests.WebApi.Controllers
         {
             var materias = new List<MateriaPrima>
             {
-                new MateriaPrima { Id = Guid.NewGuid(), Nome = "Matéria 1", QtdPacote = 10, VlrPacote = 100, GrupoId = Guid.NewGuid(), UnidadeMedidaId = Guid.NewGuid() },
-                new MateriaPrima { Id = Guid.NewGuid(), Nome = "Matéria 2", QtdPacote = 5, VlrPacote = 50, GrupoId = Guid.NewGuid(), UnidadeMedidaId = Guid.NewGuid() }
+                new() { Id = Guid.NewGuid(), Nome = "Matéria 1", QtdPacote = 10, VlrPacote = 100, GrupoId = Guid.NewGuid(), UnidadeMedidaId = Guid.NewGuid() },
+                new() { Id = Guid.NewGuid(), Nome = "Matéria 2", QtdPacote = 5, VlrPacote = 50, GrupoId = Guid.NewGuid(), UnidadeMedidaId = Guid.NewGuid() }
             };
             _serviceMock.Setup(s => s.GetAllAsync()).ReturnsAsync(materias);
 
@@ -133,7 +133,7 @@ namespace Precificador.Tests.WebApi.Controllers
             var nome = "Matéria";
             var materias = new List<MateriaPrima>
             {
-                new MateriaPrima { Id = Guid.NewGuid(), Nome = "Matéria 1", QtdPacote = 10, VlrPacote = 100, GrupoId = Guid.NewGuid(), UnidadeMedidaId = Guid.NewGuid() }
+                new() { Id = Guid.NewGuid(), Nome = "Matéria 1", QtdPacote = 10, VlrPacote = 100, GrupoId = Guid.NewGuid(), UnidadeMedidaId = Guid.NewGuid() }
             };
             _serviceMock.Setup(s => s.GetByFilterAsync(It.Is<NomeFilter>(f => f.Nome == nome))).ReturnsAsync(materias);
 

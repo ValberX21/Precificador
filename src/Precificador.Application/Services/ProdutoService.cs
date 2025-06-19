@@ -44,10 +44,5 @@ namespace Precificador.Application.Services
             entity.DataCalculoPreco = model.DataCalculoPreco;
             entity.PrecoCusto = model.PrecoCusto;
         }
-
-        protected override async Task<IEnumerable<Domain.Entities.Produto>> GetEntitiesByFilterAsync(NomeFilter filter)
-        {
-            return await _repository.GetByFilterAsync(filter);
-        }
     }
 }

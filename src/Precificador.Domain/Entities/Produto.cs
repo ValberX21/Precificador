@@ -15,7 +15,7 @@ namespace Precificador.Domain.Entities
         public decimal PrecoCustoX35 { get { return PrecoCusto * 3.5m; } }
         public decimal PrecoCustoX4 { get { return PrecoCusto * 4; } }
 
-        public ICollection<ProdutoMateriaPrima>? MateriasPrimas { get; set; }
-        public ICollection<PesquisaPreco>? Pesquisas { get; set; }
+        public ICollection<ProdutoMateriaPrima>? MateriasPrimas { get; }
+        public ICollection<PesquisaPreco>? Pesquisas { get; }
     }
 }

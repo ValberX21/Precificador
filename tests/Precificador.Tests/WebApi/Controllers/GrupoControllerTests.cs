@@ -26,8 +26,8 @@ namespace Precificador.Tests.WebApi.Controllers
         {
             var grupos = new List<Grupo>
             {
-                new Grupo { Id = Guid.NewGuid(), Nome = "Grupo 1" },
-                new Grupo { Id = Guid.NewGuid(), Nome = "Grupo 2" }
+                new() { Id = Guid.NewGuid(), Nome = "Grupo 1" },
+                new() { Id = Guid.NewGuid(), Nome = "Grupo 2" }
             };
             _serviceMock.Setup(s => s.GetAllAsync()).ReturnsAsync(grupos);
 
@@ -54,7 +54,7 @@ namespace Precificador.Tests.WebApi.Controllers
         public async Task GetById_DeveRetornarNotFoundSeNaoEncontrado()
         {
             var id = Guid.NewGuid();
-            _serviceMock.Setup(s => s.GetByIdAsync(id)).ReturnsAsync((Grupo)null);
+            _serviceMock.Setup(s => s.GetByIdAsync(id)).ReturnsAsync((Grupo?)null);
 
             var result = await _controller.GetById(id);
 
@@ -133,7 +133,7 @@ namespace Precificador.Tests.WebApi.Controllers
             var nome = "Grupo";
             var grupos = new List<Grupo>
             {
-                new Grupo { Id = Guid.NewGuid(), Nome = "Grupo 1" }
+                new() { Id = Guid.NewGuid(), Nome = "Grupo 1" }
             };
             _serviceMock.Setup(s => s.GetByFilterAsync(It.Is<NomeFilter>(f => f.Nome == nome))).ReturnsAsync(grupos);
 

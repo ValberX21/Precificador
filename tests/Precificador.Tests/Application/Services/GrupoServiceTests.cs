@@ -71,7 +71,7 @@ namespace Precificador.Tests.Application.Services
             var filter = new NomeFilter { Nome = "Filtro" };
             var entities = new List<Domain.Entities.Grupo>
             {
-                new Domain.Entities.Grupo { Id = Guid.NewGuid(), Nome = "Grupo 1" }
+                new() { Id = Guid.NewGuid(), Nome = "Grupo 1" }
             };
             _repositoryMock.Setup(r => r.GetByFilterAsync(filter)).ReturnsAsync(entities);
 
@@ -83,27 +83,37 @@ namespace Precificador.Tests.Application.Services
         }
     }
 
-    // Métodos auxiliares para acessar membros protegidos via reflexão
     public static class GrupoServiceTestExtensions
     {
-        public static Domain.Entities.Grupo InvokeConvertToEntity(this GrupoService service, Grupo model)
-            => (Domain.Entities.Grupo)typeof(GrupoService)
-                .GetMethod("ConvertToEntity", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { model });
+        public static Domain.Entities.Grupo? InvokeConvertToEntity(this GrupoService service, Grupo model)
+        {
+            var methodInfo = typeof(GrupoService)
+                .GetMethod("ConvertToEntity", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'ConvertToEntity' not found.");
+            var result = methodInfo.Invoke(service, [model]);
+            return result as Domain.Entities.Grupo;
+        }
 
-        public static Grupo InvokeConvertToModel(this GrupoService service, Domain.Entities.Grupo entity)
-            => (Grupo)typeof(GrupoService)
-                .GetMethod("ConvertToModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { entity });
+        public static Grupo? InvokeConvertToModel(this GrupoService service, Domain.Entities.Grupo entity)
+        {
+            var methodInfo = typeof(GrupoService)
+                .GetMethod("ConvertToModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'ConvertToModel' not found.");
+            var result = methodInfo.Invoke(service, [entity]);
+            return result as Grupo;
+        }
 
         public static void InvokeUpdateEntityFromModel(this GrupoService service, Domain.Entities.Grupo entity, Grupo model)
-            => typeof(GrupoService)
-                .GetMethod("UpdateEntityFromModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { entity, model });
+        {
+            var methodInfo = typeof(GrupoService)
+                .GetMethod("UpdateEntityFromModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'UpdateEntityFromModel' not found.");
+            methodInfo.Invoke(service, [entity, model]);
+        }
 
-        public static Task<IEnumerable<Domain.Entities.Grupo>> InvokeGetEntitiesByFilterAsync(this GrupoService service, NomeFilter filter)
-            => (Task<IEnumerable<Domain.Entities.Grupo>>)typeof(GrupoService)
-                .GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { filter });
+        public static async Task<IEnumerable<Domain.Entities.Grupo>> InvokeGetEntitiesByFilterAsync(this GrupoService service, NomeFilter filter)
+        {
+            var methodInfo = typeof(GrupoService)
+                .GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'GetEntitiesByFilterAsync' not found.");
+            var result = await (Task<IEnumerable<Domain.Entities.Grupo>>)methodInfo.Invoke(service, [filter]);
+            return result ?? [];
+        }
     }
 }

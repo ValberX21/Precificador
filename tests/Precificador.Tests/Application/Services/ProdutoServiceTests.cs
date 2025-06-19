@@ -103,7 +103,7 @@ namespace Precificador.Tests.Application.Services
             var filter = new NomeFilter { Nome = "Filtro" };
             var entities = new List<Domain.Entities.Produto>
             {
-                new Domain.Entities.Produto { Id = Guid.NewGuid(), Nome = "Produto 1" }
+                new() { Id = Guid.NewGuid(), Nome = "Produto 1" }
             };
             _repositoryMock.Setup(r => r.GetByFilterAsync(filter)).ReturnsAsync(entities);
 
@@ -115,27 +115,33 @@ namespace Precificador.Tests.Application.Services
         }
     }
 
-    // Métodos auxiliares para acessar membros protegidos via reflexão
     public static class ProdutoServiceTestExtensions
     {
-        public static Domain.Entities.Produto InvokeConvertToEntity(this ProdutoService service, Produto model)
-            => (Domain.Entities.Produto)typeof(ProdutoService)
-                .GetMethod("ConvertToEntity", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { model });
+        public static Domain.Entities.Produto? InvokeConvertToEntity(this ProdutoService service, Produto model)
+        {
+            var method = typeof(ProdutoService).GetMethod("ConvertToEntity", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'ConvertToEntity' not found.");
+            var result = method.Invoke(service, [model]);
+            return result as Domain.Entities.Produto;
+        }
 
-        public static Produto InvokeConvertToModel(this ProdutoService service, Domain.Entities.Produto entity)
-            => (Produto)typeof(ProdutoService)
-                .GetMethod("ConvertToModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { entity });
+        public static Produto? InvokeConvertToModel(this ProdutoService service, Domain.Entities.Produto entity)
+        {
+            var method = typeof(ProdutoService).GetMethod("ConvertToModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'ConvertToModel' not found.");
+            var result = method.Invoke(service, [entity]);
+            return result as Produto;
+        }
 
         public static void InvokeUpdateEntityFromModel(this ProdutoService service, Domain.Entities.Produto entity, Produto model)
-            => typeof(ProdutoService)
-                .GetMethod("UpdateEntityFromModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { entity, model });
+        {
+            var method = typeof(ProdutoService).GetMethod("UpdateEntityFromModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'UpdateEntityFromModel' not found.");
+            method.Invoke(service, [entity, model]);
+        }
 
         public static Task<IEnumerable<Domain.Entities.Produto>> InvokeGetEntitiesByFilterAsync(this ProdutoService service, NomeFilter filter)
-            => (Task<IEnumerable<Domain.Entities.Produto>>)typeof(ProdutoService)
-                .GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { filter });
+        {
+            var method = typeof(ProdutoService).GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'GetEntitiesByFilterAsync' not found.");
+            var result = method.Invoke(service, [filter]);
+            return result as Task<IEnumerable<Domain.Entities.Produto>> ?? Task.FromResult(Enumerable.Empty<Domain.Entities.Produto>());
+        }
     }
 }

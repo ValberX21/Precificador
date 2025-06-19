@@ -82,10 +82,10 @@ namespace Precificador.Tests.Application.Services
         [Fact]
         public async Task GetEntitiesByFilterAsync_DeveChamarRepositorioComFiltro()
         {
-            var filter = new NomeFilter { Nome = "Filtro" };
+            var filter = new ColecaoFilter { Nome = "Filtro" };
             var entities = new List<Domain.Entities.Colecao>
             {
-                new Domain.Entities.Colecao { Id = Guid.NewGuid(), Nome = "Coleção 1", Ano = 2022 }
+                new() { Id = Guid.NewGuid(), Nome = "Coleção 1", Ano = 2022 }
             };
             _repositoryMock.Setup(r => r.GetByFilterAsync(filter)).ReturnsAsync(entities);
 
@@ -97,27 +97,36 @@ namespace Precificador.Tests.Application.Services
         }
     }
 
-    // Métodos auxiliares para acessar membros protegidos
     public static class ColecaoServiceTestExtensions
     {
-        public static Domain.Entities.Colecao InvokeConvertToEntity(this ColecaoService service, Colecao model)
-            => (Domain.Entities.Colecao)typeof(ColecaoService)
-                .GetMethod("ConvertToEntity", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { model });
+        public static Domain.Entities.Colecao? InvokeConvertToEntity(this ColecaoService service, Colecao model)
+        {
+            var methodInfo = typeof(ColecaoService).GetMethod("ConvertToEntity", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            return methodInfo == null
+                ? throw new InvalidOperationException("Method ConvertToEntity not found.")
+                : (Domain.Entities.Colecao?)methodInfo.Invoke(service, [model]);
+        }
 
-        public static Colecao InvokeConvertToModel(this ColecaoService service, Domain.Entities.Colecao entity)
-            => (Colecao)typeof(ColecaoService)
-                .GetMethod("ConvertToModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { entity });
+        public static Colecao? InvokeConvertToModel(this ColecaoService service, Domain.Entities.Colecao entity)
+        {
+            var methodInfo = typeof(ColecaoService).GetMethod("ConvertToModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            return methodInfo == null
+                ? throw new InvalidOperationException("Method ConvertToModel not found.")
+                : (Colecao?)methodInfo.Invoke(service, [entity]);
+        }
 
         public static void InvokeUpdateEntityFromModel(this ColecaoService service, Domain.Entities.Colecao entity, Colecao model)
-            => typeof(ColecaoService)
-                .GetMethod("UpdateEntityFromModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { entity, model });
+        {
+            var methodInfo = typeof(ColecaoService).GetMethod("UpdateEntityFromModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method UpdateEntityFromModel not found.");
+            methodInfo.Invoke(service, [entity, model]);
+        }
 
-        public static Task<IEnumerable<Domain.Entities.Colecao>> InvokeGetEntitiesByFilterAsync(this ColecaoService service, NomeFilter filter)
-            => (Task<IEnumerable<Domain.Entities.Colecao>>)typeof(ColecaoService)
-                .GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { filter });
+        public static Task<IEnumerable<Domain.Entities.Colecao>> InvokeGetEntitiesByFilterAsync(this ColecaoService service, ColecaoFilter filter)
+        {
+            var methodInfo = typeof(ColecaoService).GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            return methodInfo == null
+                ? throw new InvalidOperationException("Method GetEntitiesByFilterAsync not found.")
+                : (Task<IEnumerable<Domain.Entities.Colecao>>)methodInfo.Invoke(service, [filter]) ?? Task.FromResult(Enumerable.Empty<Domain.Entities.Colecao>());
+        }
     }
 }

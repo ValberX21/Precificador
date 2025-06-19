@@ -107,7 +107,7 @@ namespace Precificador.Tests.Application.Services
             var filter = new NomeFilter { Nome = "Filtro" };
             var entities = new List<Domain.Entities.MateriaPrima>
             {
-                new Domain.Entities.MateriaPrima { Id = Guid.NewGuid(), Nome = "Matéria 1" }
+                new() { Id = Guid.NewGuid(), Nome = "Matéria 1" }
             };
             _repositoryMock.Setup(r => r.GetByFilterAsync(filter)).ReturnsAsync(entities);
 
@@ -119,27 +119,44 @@ namespace Precificador.Tests.Application.Services
         }
     }
 
-    // Métodos auxiliares para acessar membros protegidos via reflexão
     public static class MateriaPrimaServiceTestExtensions
     {
-        public static Domain.Entities.MateriaPrima InvokeConvertToEntity(this MateriaPrimaService service, MateriaPrima model)
-            => (Domain.Entities.MateriaPrima)typeof(MateriaPrimaService)
-                .GetMethod("ConvertToEntity", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { model });
+        public static Domain.Entities.MateriaPrima? InvokeConvertToEntity(this MateriaPrimaService service, MateriaPrima model)
+        {
+            var methodInfo = typeof(MateriaPrimaService)
+                .GetMethod("ConvertToEntity", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
 
-        public static MateriaPrima InvokeConvertToModel(this MateriaPrimaService service, Domain.Entities.MateriaPrima entity)
-            => (MateriaPrima)typeof(MateriaPrimaService)
-                .GetMethod("ConvertToModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { entity });
+            return methodInfo == null
+                ? throw new InvalidOperationException("Method 'ConvertToEntity' not found in MateriaPrimaService.")
+                : methodInfo.Invoke(service, [model]) as Domain.Entities.MateriaPrima;
+        }
+
+        public static MateriaPrima? InvokeConvertToModel(this MateriaPrimaService service, Domain.Entities.MateriaPrima entity)
+        {
+            var methodInfo = typeof(MateriaPrimaService)
+                .GetMethod("ConvertToModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+
+            return methodInfo == null
+                ? throw new InvalidOperationException("Method 'ConvertToModel' not found in MateriaPrimaService.")
+                : methodInfo.Invoke(service, [entity]) as MateriaPrima;
+        }
 
         public static void InvokeUpdateEntityFromModel(this MateriaPrimaService service, Domain.Entities.MateriaPrima entity, MateriaPrima model)
-            => typeof(MateriaPrimaService)
-                .GetMethod("UpdateEntityFromModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { entity, model });
+        {
+            var methodInfo = typeof(MateriaPrimaService)
+                .GetMethod("UpdateEntityFromModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'UpdateEntityFromModel' not found in MateriaPrimaService.");
+            methodInfo.Invoke(service, [entity, model]);
+        }
 
         public static Task<IEnumerable<Domain.Entities.MateriaPrima>> InvokeGetEntitiesByFilterAsync(this MateriaPrimaService service, NomeFilter filter)
-            => (Task<IEnumerable<Domain.Entities.MateriaPrima>>)typeof(MateriaPrimaService)
-                .GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                .Invoke(service, new object[] { filter });
+        {
+            var methodInfo = typeof(MateriaPrimaService)
+                .GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'GetEntitiesByFilterAsync' not found in MateriaPrimaService.");
+            var result = methodInfo.Invoke(service, [filter]);
+
+            return result is Task<IEnumerable<Domain.Entities.MateriaPrima>> taskResult
+                ? taskResult
+                : throw new InvalidOperationException("Method 'GetEntitiesByFilterAsync' did not return the expected type.");
+        }
     }
 }

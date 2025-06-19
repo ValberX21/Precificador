@@ -7,7 +7,7 @@ namespace Precificador.Application.Model
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar o Nome da Materia Prima")]
         [MaxLength(200, ErrorMessage = "Nome da Materia Prima deve ter no máximo 200 caracteres")]
-        public string Nome { get; set; }
+        public required string Nome { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Necessário Informar o Nome da Materia Prima")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Quantidade do Pacote deve ser maior que zero")]

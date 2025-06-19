@@ -26,8 +26,8 @@ namespace Precificador.Tests.WebApi.Controllers
         {
             var lista = new List<ProdutoMateriaPrima>
             {
-                new ProdutoMateriaPrima { Id = Guid.NewGuid(), ProdutoId = Guid.NewGuid(), MateriaPrimaId = Guid.NewGuid(), Quantidade = 2.5m },
-                new ProdutoMateriaPrima { Id = Guid.NewGuid(), ProdutoId = Guid.NewGuid(), MateriaPrimaId = Guid.NewGuid(), Quantidade = 1.0m }
+                new() { Id = Guid.NewGuid(), ProdutoId = Guid.NewGuid(), MateriaPrimaId = Guid.NewGuid(), Quantidade = 2.5m },
+                new() { Id = Guid.NewGuid(), ProdutoId = Guid.NewGuid(), MateriaPrimaId = Guid.NewGuid(), Quantidade = 1.0m }
             };
             _serviceMock.Setup(s => s.GetAllAsync()).ReturnsAsync(lista);
 
@@ -54,7 +54,7 @@ namespace Precificador.Tests.WebApi.Controllers
         public async Task GetById_DeveRetornarNotFoundSeNaoEncontrado()
         {
             var id = Guid.NewGuid();
-            _serviceMock.Setup(s => s.GetByIdAsync(id)).ReturnsAsync((ProdutoMateriaPrima)null);
+            _serviceMock.Setup(s => s.GetByIdAsync(id)).ReturnsAsync((ProdutoMateriaPrima?)null);
 
             var result = await _controller.GetById(id);
 
@@ -133,7 +133,7 @@ namespace Precificador.Tests.WebApi.Controllers
             var nome = "Filtro";
             var lista = new List<ProdutoMateriaPrima>
             {
-                new ProdutoMateriaPrima { Id = Guid.NewGuid(), ProdutoId = Guid.NewGuid(), MateriaPrimaId = Guid.NewGuid(), Quantidade = 2.0m }
+                new() { Id = Guid.NewGuid(), ProdutoId = Guid.NewGuid(), MateriaPrimaId = Guid.NewGuid(), Quantidade = 2.0m }
             };
             _serviceMock.Setup(s => s.GetByFilterAsync(It.Is<ProdutoMateriaPrimaFilter>(f => f.ProdutoNome == nome || f.MateriaPrimaNome == nome))).ReturnsAsync(lista);
 

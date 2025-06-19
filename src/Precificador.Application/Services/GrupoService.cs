@@ -28,10 +28,5 @@ namespace Precificador.Application.Services
         {
             entity.Nome = model.Nome;
         }
-
-        protected override async Task<IEnumerable<Domain.Entities.Grupo>> GetEntitiesByFilterAsync(NomeFilter filter)
-        {
-            return await _repository.GetByFilterAsync(filter);
-        }
     }
 }
