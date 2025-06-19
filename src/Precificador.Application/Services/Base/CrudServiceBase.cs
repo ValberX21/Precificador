@@ -12,7 +12,7 @@ namespace Precificador.Application.Services.Base
         public virtual async Task<IEnumerable<TModel>> GetAllAsync()
         {
             var entities = await _repository.GetAllAsync();
-            return entities == null ? Enumerable.Empty<TModel>() : ConvertToModel(entities);
+            return entities == null ? [] : ConvertToModel(entities);
         }
 
         public virtual async Task<TModel?> GetByIdAsync(Guid id)
@@ -24,7 +24,7 @@ namespace Precificador.Application.Services.Base
         public virtual async Task<IEnumerable<TModel>> GetByFilterAsync(TFilter filter)
         {
             var entities = await GetEntitiesByFilterAsync(filter);
-            return entities == null ? Enumerable.Empty<TModel>() : ConvertToModel(entities);
+            return entities == null ? [] : ConvertToModel(entities);
         }
 
         public virtual async Task<bool> AddAsync(TModel model)

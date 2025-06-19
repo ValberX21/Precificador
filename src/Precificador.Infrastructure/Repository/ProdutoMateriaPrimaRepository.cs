@@ -5,12 +5,13 @@ using Precificador.Domain.Filters;
 using Precificador.Domain.Repository;
 using Precificador.Infrastructure.Data;
 using Precificador.Infrastructure.Repository.Base;
+using System.Data.Common;
 
 namespace Precificador.Infrastructure.Repository
 {
     public class ProdutoMateriaPrimaRepository(AppDbContext context, ILogger<ProdutoMateriaPrima> logger) : CrudRepositoryBase<ProdutoMateriaPrima, ProdutoMateriaPrimaFilter>(context, logger), IProdutoMateriaPrimaRepository
     {
-        public override async Task<IEnumerable<ProdutoMateriaPrima>> GetByFilterAsync(ProdutoMateriaPrimaFilter filter)
+        public override async Task<IEnumerable<ProdutoMateriaPrima>?> GetByFilterAsync(ProdutoMateriaPrimaFilter filter)
         {
             try
             {
@@ -39,12 +40,22 @@ namespace Precificador.Infrastructure.Repository
                     }
                 }
 
-                return await query.ToListAsync();
+                return await query.ToListAsync().ConfigureAwait(false);
+            }
+            catch (DbException dbEx)
+            {
+                LogErrorFetchingByFilter(_logger, typeof(ProdutoMateriaPrima).Name, dbEx);
+                return [];
+            }
+            catch (InvalidOperationException invalidOpEx)
+            {
+                LogErrorFetchingByFilter(_logger, typeof(ProdutoMateriaPrima).Name, invalidOpEx);
+                return [];
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar todos os registros de {EntityType}", typeof(ProdutoMateriaPrima).Name);
-                return [];
+                LogErrorFetchingByFilter(_logger, typeof(ProdutoMateriaPrima).Name, ex);
+                throw;
             }
         }
     }

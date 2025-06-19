@@ -10,7 +10,7 @@ namespace Precificador.Infrastructure.Repository
 {
     public class PesquisaPrecoRepository(AppDbContext context, ILogger<PesquisaPreco> logger) : CrudRepositoryBase<PesquisaPreco, PesquisaPrecoFilter>(context, logger), IPesquisaPrecoRepository
     {
-        public override async Task<IEnumerable<PesquisaPreco>> GetByFilterAsync(PesquisaPrecoFilter filter)
+        public override async Task<IEnumerable<PesquisaPreco>?> GetByFilterAsync(PesquisaPrecoFilter filter)
         {
             try
             {
@@ -43,13 +43,18 @@ namespace Precificador.Infrastructure.Repository
             }
             catch (DbUpdateException ex)
             {
-                _logErrorFetchingByFilter(_logger, typeof(PesquisaPreco).Name, ex);
+                LogErrorFetchingByFilter(_logger, typeof(PesquisaPreco).Name, ex);
                 return [];
             }
             catch (InvalidOperationException ex)
             {
-                _logErrorFetchingByFilter(_logger, typeof(PesquisaPreco).Name, ex);
+                LogErrorFetchingByFilter(_logger, typeof(PesquisaPreco).Name, ex);
                 return [];
+            }
+            catch (Exception ex)
+            {
+                LogErrorFetchingByFilter(_logger, typeof(PesquisaPreco).Name, ex);
+                throw;
             }
         }
     }

@@ -10,7 +10,7 @@ namespace Precificador.Infrastructure.Repository
 {
     public class UnidadeMedidaRepository(AppDbContext context, ILogger<UnidadeMedida> logger) : CrudRepositoryBase<UnidadeMedida, NomeFilter>(context, logger), IUnidadeMedidaRepository
     {
-        public override async Task<IEnumerable<UnidadeMedida>> GetByFilterAsync(NomeFilter filter)
+        public override async Task<IEnumerable<UnidadeMedida>?> GetByFilterAsync(NomeFilter filter)
         {
             try
             {
@@ -23,10 +23,20 @@ namespace Precificador.Infrastructure.Repository
 
                 return await query.ToListAsync().ConfigureAwait(false);
             }
+            catch (DbUpdateException ex)
+            {
+                LogErrorFetchingByFilter(_logger, typeof(UnidadeMedida).Name, ex);
+                return [];
+            }
+            catch (InvalidOperationException ex)
+            {
+                LogErrorFetchingByFilter(_logger, typeof(UnidadeMedida).Name, ex);
+                return [];
+            }
             catch (Exception ex)
             {
-                _logErrorFetchingByFilter(_logger, typeof(UnidadeMedida).Name, ex);
-                return [];
+                LogErrorFetchingByFilter(_logger, typeof(UnidadeMedida).Name, ex);
+                throw;
             }
         }
     }

@@ -10,7 +10,7 @@ namespace Precificador.Infrastructure.Repository
 {
     public class MateriaPrimaRepository(AppDbContext context, ILogger<MateriaPrima> logger) : CrudRepositoryBase<MateriaPrima, NomeFilter>(context, logger), IMateriaPrimaRepository
     {
-        public override async Task<IEnumerable<MateriaPrima>> GetByFilterAsync(NomeFilter filter)
+        public override async Task<IEnumerable<MateriaPrima>?> GetByFilterAsync(NomeFilter filter)
         {
             try
             {
@@ -23,10 +23,20 @@ namespace Precificador.Infrastructure.Repository
 
                 return await query.ToListAsync().ConfigureAwait(false);
             }
+            catch (DbUpdateException ex)
+            {
+                LogErrorFetchingByFilter(_logger, typeof(MateriaPrima).Name, ex);
+                return [];
+            }
+            catch (InvalidOperationException ex)
+            {
+                LogErrorFetchingByFilter(_logger, typeof(MateriaPrima).Name, ex);
+                return [];
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar todos os registros de {EntityType}", typeof(MateriaPrima).Name);
-                return [];
+                LogErrorFetchingByFilter(_logger, typeof(MateriaPrima).Name, ex);
+                throw;
             }
         }
     }

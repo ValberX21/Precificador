@@ -15,7 +15,7 @@ namespace Precificador.Infrastructure.Repository.Base
         private static readonly Action<ILogger, string, Exception?> _logErrorUpdatingEntity = LoggerMessage.Define<string>(LogLevel.Error, new EventId(4, "UpdateEntityError"), "Erro ao atualizar {EntityType}");
         private static readonly Action<ILogger, string, Exception?> _logErrorDeletingEntity = LoggerMessage.Define<string>(LogLevel.Error, new EventId(5, "DeleteEntityError"), "Erro ao remover {EntityType}");
         private static readonly Action<ILogger, Guid, string, Exception?> _logWarningDeletingNonExistentEntity = LoggerMessage.Define<Guid, string>(LogLevel.Warning, new EventId(6, "DeleteNonExistentEntityWarning"), "Tentativa de deletar {EntityType} com ID {Id} que não existe");
-        protected static readonly Action<ILogger, string, Exception?> _logErrorFetchingByFilter = LoggerMessage.Define<string>(LogLevel.Error, new EventId(7, "FetchByFilterError"), "Erro ao buscar {EntityType} com Filtro.");
+        protected static readonly Action<ILogger, string, Exception?> LogErrorFetchingByFilter = LoggerMessage.Define<string>(LogLevel.Error, new EventId(7, "FetchByFilterError"), "Erro ao buscar {EntityType} com Filtro.");
 
         protected readonly AppDbContext _context = context;
         protected readonly ILogger<TModel> _logger = logger;

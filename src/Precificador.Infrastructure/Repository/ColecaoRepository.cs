@@ -10,7 +10,7 @@ namespace Precificador.Infrastructure.Repository
 {
     public class ColecaoRepository(AppDbContext context, ILogger<Colecao> logger) : CrudRepositoryBase<Colecao, ColecaoFilter>(context, logger), IColecaoRepository
     {
-        public override async Task<IEnumerable<Colecao>> GetByFilterAsync(ColecaoFilter filter)
+        public override async Task<IEnumerable<Colecao>?> GetByFilterAsync(ColecaoFilter filter)
         {
             try
             {
@@ -31,10 +31,20 @@ namespace Precificador.Infrastructure.Repository
 
                 return await query.ToListAsync().ConfigureAwait(false);
             }
+            catch (DbUpdateException ex)
+            {
+                LogErrorFetchingByFilter(_logger, typeof(Colecao).Name, ex);
+                return [];
+            }
+            catch (InvalidOperationException ex)
+            {
+                LogErrorFetchingByFilter(_logger, typeof(Colecao).Name, ex);
+                return [];
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar todos os registros de {EntityType}", typeof(Colecao).Name);
-                return [];
+                LogErrorFetchingByFilter(_logger, typeof(Colecao).Name, ex);
+                throw;
             }
         }
     }

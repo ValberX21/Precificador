@@ -10,7 +10,7 @@ namespace Precificador.Infrastructure.Repository
 {
     public class GrupoRepository(AppDbContext context, ILogger<Grupo> logger) : CrudRepositoryBase<Grupo, NomeFilter>(context, logger), IGrupoRepository
     {
-        public override async Task<IEnumerable<Grupo>> GetByFilterAsync(NomeFilter filter)
+        public override async Task<IEnumerable<Grupo>?> GetByFilterAsync(NomeFilter filter)
         {
             try
             {
@@ -23,10 +23,20 @@ namespace Precificador.Infrastructure.Repository
 
                 return await query.ToListAsync().ConfigureAwait(false);
             }
+            catch (DbUpdateException ex)
+            {
+                LogErrorFetchingByFilter(_logger, typeof(Grupo).Name, ex);
+                return [];
+            }
+            catch (InvalidOperationException ex)
+            {
+                LogErrorFetchingByFilter(_logger, typeof(Grupo).Name, ex);
+                return [];
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar todos os registros de {EntityType}", typeof(Grupo).Name);
-                return [];
+                LogErrorFetchingByFilter(_logger, typeof(Grupo).Name, ex);
+                throw;
             }
         }
     }
