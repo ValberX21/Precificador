@@ -28,7 +28,8 @@ namespace Precificador.Tests.Application.Services
 
             var entity = _service.InvokeConvertToEntity(model);
 
-            Assert.Equal(model.Id, entity.Id);
+            Assert.NotNull(entity);
+            Assert.Equal(model.Id, entity!.Id);
             Assert.Equal(model.Nome, entity.Nome);
         }
 
@@ -43,7 +44,8 @@ namespace Precificador.Tests.Application.Services
 
             var model = _service.InvokeConvertToModel(entity);
 
-            Assert.Equal(entity.Id, model.Id);
+            Assert.NotNull(model); // Ensure model is not null before accessing its properties  
+            Assert.Equal(entity.Id, model!.Id);
             Assert.Equal(entity.Nome, model.Nome);
         }
 
@@ -112,8 +114,8 @@ namespace Precificador.Tests.Application.Services
         {
             var methodInfo = typeof(GrupoService)
                 .GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method 'GetEntitiesByFilterAsync' not found.");
-            var result = await (Task<IEnumerable<Domain.Entities.Grupo>>)methodInfo.Invoke(service, [filter]);
-            return result ?? [];
+            var result = await (methodInfo.Invoke(service, [filter]) as Task<IEnumerable<Domain.Entities.Grupo>> ?? Task.FromResult(Enumerable.Empty<Domain.Entities.Grupo>()));
+            return result;
         }
     }
 }

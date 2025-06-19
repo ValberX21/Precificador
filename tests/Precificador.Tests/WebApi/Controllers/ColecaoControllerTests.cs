@@ -54,7 +54,7 @@ namespace Precificador.Tests.WebApi.Controllers
         public async Task GetById_DeveRetornarNotFoundSeNaoEncontrado()
         {
             var id = Guid.NewGuid();
-            _serviceMock.Setup(s => s.GetByIdAsync(id)).ReturnsAsync((Colecao)null);
+            _serviceMock.Setup(s => s.GetByIdAsync(id)).ReturnsAsync((Colecao?)null);
 
             var result = await _controller.GetById(id);
 

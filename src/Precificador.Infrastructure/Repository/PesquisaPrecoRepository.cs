@@ -39,11 +39,16 @@ namespace Precificador.Infrastructure.Repository
                     }
                 }
 
-                return await query.ToListAsync();
+                return await query.ToListAsync().ConfigureAwait(false);
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                _logger.LogError(ex, "Erro ao buscar todos os registros de {EntityType}", typeof(PesquisaPreco).Name);
+                _logErrorFetchingByFilter(_logger, typeof(PesquisaPreco).Name, ex);
+                return [];
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logErrorFetchingByFilter(_logger, typeof(PesquisaPreco).Name, ex);
                 return [];
             }
         }

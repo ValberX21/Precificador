@@ -30,7 +30,8 @@ namespace Precificador.Tests.Application.Services
 
             var entity = _service.InvokeConvertToEntity(model);
 
-            Assert.Equal(model.Id, entity.Id);
+            Assert.NotNull(entity);
+            Assert.Equal(model.Id, entity!.Id);
             Assert.Equal(model.Nome, entity.Nome);
             Assert.Equal(model.Ano, entity.Ano);
             Assert.Equal(model.DataLancamento, entity.DataLancamento);
@@ -49,7 +50,8 @@ namespace Precificador.Tests.Application.Services
 
             var model = _service.InvokeConvertToModel(entity);
 
-            Assert.Equal(entity.Id, model.Id);
+            Assert.NotNull(model);
+            Assert.Equal(entity.Id, model!.Id);
             Assert.Equal(entity.Nome, model.Nome);
             Assert.Equal(entity.Ano, model.Ano);
             Assert.Equal(entity.DataLancamento, model.DataLancamento);
@@ -123,10 +125,9 @@ namespace Precificador.Tests.Application.Services
 
         public static Task<IEnumerable<Domain.Entities.Colecao>> InvokeGetEntitiesByFilterAsync(this ColecaoService service, ColecaoFilter filter)
         {
-            var methodInfo = typeof(ColecaoService).GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-            return methodInfo == null
-                ? throw new InvalidOperationException("Method GetEntitiesByFilterAsync not found.")
-                : (Task<IEnumerable<Domain.Entities.Colecao>>)methodInfo.Invoke(service, [filter]) ?? Task.FromResult(Enumerable.Empty<Domain.Entities.Colecao>());
+            var methodInfo = typeof(ColecaoService).GetMethod("GetEntitiesByFilterAsync", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) ?? throw new InvalidOperationException("Method GetEntitiesByFilterAsync not found.");
+            var result = methodInfo.Invoke(service, [filter]);
+            return result as Task<IEnumerable<Domain.Entities.Colecao>> ?? Task.FromResult(Enumerable.Empty<Domain.Entities.Colecao>());
         }
     }
 }

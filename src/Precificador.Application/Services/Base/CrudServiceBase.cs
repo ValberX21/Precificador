@@ -11,7 +11,8 @@ namespace Precificador.Application.Services.Base
 
         public virtual async Task<IEnumerable<TModel>> GetAllAsync()
         {
-            return (IEnumerable<TEntity>?)await _repository.GetAllAsync() == null ? [] : ConvertToModel(await _repository.GetAllAsync());
+            var entities = await _repository.GetAllAsync();
+            return entities == null ? Enumerable.Empty<TModel>() : ConvertToModel(entities);
         }
 
         public virtual async Task<TModel?> GetByIdAsync(Guid id)
@@ -23,7 +24,7 @@ namespace Precificador.Application.Services.Base
         public virtual async Task<IEnumerable<TModel>> GetByFilterAsync(TFilter filter)
         {
             var entities = await GetEntitiesByFilterAsync(filter);
-            return entities == null ? [] : ConvertToModel(entities);
+            return entities == null ? Enumerable.Empty<TModel>() : ConvertToModel(entities);
         }
 
         public virtual async Task<bool> AddAsync(TModel model)
@@ -56,12 +57,13 @@ namespace Precificador.Application.Services.Base
 
         private async Task<IEnumerable<TEntity>> GetEntitiesByFilterAsync(TFilter filter)
         {
-            return await _repository.GetByFilterAsync(filter);
+            var entities = await _repository.GetByFilterAsync(filter);
+            return entities ?? [];
         }
 
         public virtual IEnumerable<TModel> ConvertToModel(IEnumerable<TEntity> entity)
         {
-            return entity?.Select(e => ConvertToModel(e))?.ToList() ?? [];
+            return entity?.Select(e => ConvertToModel(e))?.ToList() ?? Enumerable.Empty<TModel>();
         }
 
         protected abstract TEntity ConvertToEntity(TModel model);

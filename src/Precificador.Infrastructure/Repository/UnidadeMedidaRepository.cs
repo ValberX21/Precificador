@@ -25,7 +25,7 @@ namespace Precificador.Infrastructure.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar todos os registros de {EntityType}", typeof(UnidadeMedida).Name);
+                _logErrorFetchingByFilter(_logger, typeof(UnidadeMedida).Name, ex);
                 return [];
             }
         }

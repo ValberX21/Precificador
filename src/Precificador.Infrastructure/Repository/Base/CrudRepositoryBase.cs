@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Precificador.Domain.Entities.Base;
 using Precificador.Domain.Filters;
 using Precificador.Domain.Repository.Base;
@@ -8,19 +9,37 @@ namespace Precificador.Infrastructure.Repository.Base
 {
     public abstract class CrudRepositoryBase<TModel, TFilter>(AppDbContext context, ILogger<TModel> logger) : ICrudRepository<TModel, TFilter> where TModel : CrudBase where TFilter : IFilter
     {
+        private static readonly Action<ILogger, string, Exception?> _logErrorFetchingAllRecords = LoggerMessage.Define<string>(LogLevel.Error, new EventId(1, "FetchAllError"), "Erro ao buscar todos os registros de {EntityType}");
+        private static readonly Action<ILogger, Guid, string, Exception?> _logErrorFetchingById = LoggerMessage.Define<Guid, string>(LogLevel.Error, new EventId(2, "FetchByIdError"), "Erro ao buscar {EntityType} com ID {Id}");
+        private static readonly Action<ILogger, string, Exception?> _logErrorAddingEntity = LoggerMessage.Define<string>(LogLevel.Error, new EventId(3, "AddEntityError"), "Erro ao inserir {EntityType}");
+        private static readonly Action<ILogger, string, Exception?> _logErrorUpdatingEntity = LoggerMessage.Define<string>(LogLevel.Error, new EventId(4, "UpdateEntityError"), "Erro ao atualizar {EntityType}");
+        private static readonly Action<ILogger, string, Exception?> _logErrorDeletingEntity = LoggerMessage.Define<string>(LogLevel.Error, new EventId(5, "DeleteEntityError"), "Erro ao remover {EntityType}");
+        private static readonly Action<ILogger, Guid, string, Exception?> _logWarningDeletingNonExistentEntity = LoggerMessage.Define<Guid, string>(LogLevel.Warning, new EventId(6, "DeleteNonExistentEntityWarning"), "Tentativa de deletar {EntityType} com ID {Id} que não existe");
+        protected static readonly Action<ILogger, string, Exception?> _logErrorFetchingByFilter = LoggerMessage.Define<string>(LogLevel.Error, new EventId(7, "FetchByFilterError"), "Erro ao buscar {EntityType} com Filtro.");
+
         protected readonly AppDbContext _context = context;
         protected readonly ILogger<TModel> _logger = logger;
 
-        public async Task<IEnumerable<TModel>> GetAllAsync()
+        public async Task<IEnumerable<TModel>?> GetAllAsync()
         {
             try
             {
                 return await Task.FromResult(_context.Set<TModel>().AsEnumerable().Where(x => x.Ativo)).ConfigureAwait(false);
             }
+            catch (InvalidOperationException ex)
+            {
+                _logErrorFetchingAllRecords(_logger, typeof(TModel).Name, ex);
+                return [];
+            }
+            catch (DbUpdateException ex)
+            {
+                _logErrorFetchingAllRecords(_logger, typeof(TModel).Name, ex);
+                return [];
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar todos os registros de {EntityType}", typeof(TModel).Name);
-                return [];
+                _logErrorFetchingAllRecords(_logger, typeof(TModel).Name, ex);
+                throw;
             }
         }
 
@@ -31,10 +50,20 @@ namespace Precificador.Infrastructure.Repository.Base
                 var result = await _context.Set<TModel>().FindAsync(id).ConfigureAwait(false);
                 return result != null && result.Ativo ? result : null;
             }
+            catch (InvalidOperationException ex)
+            {
+                _logErrorFetchingById(_logger, id, typeof(TModel).Name, ex);
+                return null;
+            }
+            catch (DbUpdateException ex)
+            {
+                _logErrorFetchingById(_logger, id, typeof(TModel).Name, ex);
+                return null;
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar {EntityType} com ID {Id}", typeof(TModel).Name, id);
-                return null;
+                _logErrorFetchingById(_logger, id, typeof(TModel).Name, ex);
+                throw;
             }
         }
 
@@ -54,9 +83,19 @@ namespace Precificador.Infrastructure.Repository.Base
                 var saveResult = await _context.SaveChangesAsync().ConfigureAwait(false);
                 return saveResult > 0;
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                _logger.LogError(ex, "Erro ao inserir {EntityType}", typeof(TModel).Name);
+                _logErrorAddingEntity(_logger, typeof(TModel).Name, ex);
+                return false;
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logErrorAddingEntity(_logger, typeof(TModel).Name, ex);
+                return false;
+            }
+            catch (Exception ex) when (ex is ArgumentException || ex is NotSupportedException)
+            {
+                _logErrorAddingEntity(_logger, typeof(TModel).Name, ex);
                 return false;
             }
         }
@@ -75,9 +114,19 @@ namespace Precificador.Infrastructure.Repository.Base
                 var saveResult = await _context.SaveChangesAsync().ConfigureAwait(false);
                 return saveResult > 0;
             }
-            catch (Exception ex)
+            catch (DbUpdateConcurrencyException ex)
             {
-                _logger.LogError(ex, "Erro ao atualizar {EntityType}", typeof(TModel).Name);
+                _logErrorUpdatingEntity(_logger, typeof(TModel).Name, ex);
+                return false;
+            }
+            catch (DbUpdateException ex)
+            {
+                _logErrorUpdatingEntity(_logger, typeof(TModel).Name, ex);
+                return false;
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logErrorUpdatingEntity(_logger, typeof(TModel).Name, ex);
                 return false;
             }
         }
@@ -88,7 +137,7 @@ namespace Precificador.Infrastructure.Repository.Base
 
             if (entity == null)
             {
-                _logger.LogWarning("Tentativa de deletar {EntityType} com ID {Id} que não existe", typeof(TModel).Name, id);
+                _logWarningDeletingNonExistentEntity(_logger, id, typeof(TModel).Name, null);
                 return false;
             }
 
@@ -98,13 +147,23 @@ namespace Precificador.Infrastructure.Repository.Base
             {
                 return await UpdateAsync(entity).ConfigureAwait(false);
             }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                _logErrorDeletingEntity(_logger, typeof(TModel).Name, ex);
+                return false;
+            }
+            catch (DbUpdateException ex)
+            {
+                _logErrorDeletingEntity(_logger, typeof(TModel).Name, ex);
+                return false;
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao remover {EntityType}", typeof(TModel).Name);
-                return false;
+                _logErrorDeletingEntity(_logger, typeof(TModel).Name, ex);
+                throw;
             }
         }
 
-        public abstract Task<IEnumerable<TModel>> GetByFilterAsync(TFilter filter);
+        public abstract Task<IEnumerable<TModel>?> GetByFilterAsync(TFilter filter);
     }
 }

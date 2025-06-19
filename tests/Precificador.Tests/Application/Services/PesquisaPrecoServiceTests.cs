@@ -31,7 +31,8 @@ namespace Precificador.Tests.Application.Services
 
             var entity = _service.InvokeConvertToEntity(model);
 
-            Assert.Equal(model.Id, entity.Id);
+            Assert.NotNull(entity);
+            Assert.Equal(model.Id, entity!.Id);
             Assert.Equal(model.ProdutoId, entity.ProdutoId);
             Assert.Equal(model.Local, entity.Local);
             Assert.Equal(model.Valor, entity.Valor);
@@ -52,7 +53,8 @@ namespace Precificador.Tests.Application.Services
 
             var model = _service.InvokeConvertToModel(entity);
 
-            Assert.Equal(entity.Id, model.Id);
+            Assert.NotNull(model); // Ensure model is not null before dereferencing  
+            Assert.Equal(entity.Id, model!.Id);
             Assert.Equal(entity.ProdutoId, model.ProdutoId);
             Assert.Equal(entity.Local, model.Local);
             Assert.Equal(entity.Valor, model.Valor);

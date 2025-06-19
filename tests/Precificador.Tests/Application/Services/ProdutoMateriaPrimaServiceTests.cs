@@ -52,7 +52,7 @@ namespace Precificador.Tests.Application.Services
             var method = typeof(ProdutoMateriaPrimaService).GetMethod("ConvertToEntity", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
             return method == null
                 ? throw new InvalidOperationException("Method 'ConvertToEntity' not found.")
-                : (Domain.Entities.ProdutoMateriaPrima)method.Invoke(service, [model]);
+                : (Domain.Entities.ProdutoMateriaPrima)method.Invoke(service, [model])!;
         }
 
         public static ProdutoMateriaPrima InvokeConvertToModel(this ProdutoMateriaPrimaService service, Domain.Entities.ProdutoMateriaPrima entity)
@@ -63,7 +63,7 @@ namespace Precificador.Tests.Application.Services
             var method = typeof(ProdutoMateriaPrimaService).GetMethod("ConvertToModel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
             return method == null
                 ? throw new InvalidOperationException("Method 'ConvertToModel' not found.")
-                : (ProdutoMateriaPrima)method.Invoke(service, [entity]);
+                : (ProdutoMateriaPrima)method.Invoke(service, [entity])!;
         }
 
         public static void InvokeUpdateEntityFromModel(this ProdutoMateriaPrimaService service, Domain.Entities.ProdutoMateriaPrima entity, ProdutoMateriaPrima model)
@@ -85,7 +85,7 @@ namespace Precificador.Tests.Application.Services
             var result = method.Invoke(service, [filter]);
             return result == null
                 ? throw new InvalidOperationException("Method 'GetEntitiesByFilterAsync' returned null.")
-                : (Task<IEnumerable<Domain.Entities.ProdutoMateriaPrima>>)result;
+                : (Task<IEnumerable<Domain.Entities.ProdutoMateriaPrima>>)result!;
         }
     }
 }
