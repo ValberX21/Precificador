@@ -35,17 +35,5 @@ namespace Precificador.Application.Services
             entity.Ano = model.Ano;
             entity.DataLancamento = model.DataLancamento;
         }
-
-        public async Task<IEnumerable<Model.Colecao>> GetEntitiesByFilterAsync(string param)
-        {
-            if (string.IsNullOrWhiteSpace(param))
-            {
-                throw new ArgumentException("Parameter cannot be null or empty.", nameof(param));
-            }
-
-            var filter = JsonSerializer.Deserialize<ColecaoFilter>(param) ?? throw new ArgumentException("Deserialized filter cannot be null.", nameof(param));
-            var entities = await _repository.GetByFilterAsync(filter);
-            return entities.Select(ConvertToModel);
-        }
     }
 }

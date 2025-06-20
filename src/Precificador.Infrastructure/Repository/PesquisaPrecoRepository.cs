@@ -14,7 +14,7 @@ namespace Precificador.Infrastructure.Repository
         {
             try
             {
-                var query = _context.PesquisasPrecos.AsQueryable().Where(c => c.Ativo);
+                var query = Context.PesquisasPrecos.AsQueryable().Where(c => c.Ativo);
 
                 if (filter != null)
                 {
@@ -43,17 +43,17 @@ namespace Precificador.Infrastructure.Repository
             }
             catch (DbUpdateException ex)
             {
-                LogErrorFetchingByFilter(_logger, typeof(PesquisaPreco).Name, ex);
+                LogErrorFetchingByFilter(Logger, typeof(PesquisaPreco).Name, ex);
                 return [];
             }
             catch (InvalidOperationException ex)
             {
-                LogErrorFetchingByFilter(_logger, typeof(PesquisaPreco).Name, ex);
+                LogErrorFetchingByFilter(Logger, typeof(PesquisaPreco).Name, ex);
                 return [];
             }
             catch (Exception ex)
             {
-                LogErrorFetchingByFilter(_logger, typeof(PesquisaPreco).Name, ex);
+                LogErrorFetchingByFilter(Logger, typeof(PesquisaPreco).Name, ex);
                 throw;
             }
         }

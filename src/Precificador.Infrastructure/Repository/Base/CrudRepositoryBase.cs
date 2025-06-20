@@ -17,8 +17,11 @@ namespace Precificador.Infrastructure.Repository.Base
         private static readonly Action<ILogger, Guid, string, Exception?> _logWarningDeletingNonExistentEntity = LoggerMessage.Define<Guid, string>(LogLevel.Warning, new EventId(6, "DeleteNonExistentEntityWarning"), "Tentativa de deletar {EntityType} com ID {Id} que não existe");
         protected static readonly Action<ILogger, string, Exception?> LogErrorFetchingByFilter = LoggerMessage.Define<string>(LogLevel.Error, new EventId(7, "FetchByFilterError"), "Erro ao buscar {EntityType} com Filtro.");
 
-        protected readonly AppDbContext _context = context;
-        protected readonly ILogger<TModel> _logger = logger;
+        private readonly AppDbContext _context = context;
+        private readonly ILogger<TModel> _logger = logger;
+
+        protected AppDbContext Context => _context;
+        protected ILogger<TModel> Logger => _logger;
 
         public async Task<IEnumerable<TModel>?> GetAllAsync()
         {

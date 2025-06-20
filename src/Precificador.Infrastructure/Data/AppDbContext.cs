@@ -13,6 +13,7 @@ namespace Precificador.Infrastructure.Data
         public DbSet<PesquisaPreco> PesquisasPrecos { get; set; }
         public DbSet<UnidadeMedida> UnidadesMedida { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>")]
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<MateriaPrima>()

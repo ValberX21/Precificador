@@ -14,7 +14,7 @@ namespace Precificador.Infrastructure.Repository
         {
             try
             {
-                var query = _context.Colecoes.AsQueryable().Where(c => c.Ativo);
+                var query = Context.Colecoes.AsQueryable().Where(c => c.Ativo);
 
                 if (filter != null)
                 {
@@ -33,17 +33,17 @@ namespace Precificador.Infrastructure.Repository
             }
             catch (DbUpdateException ex)
             {
-                LogErrorFetchingByFilter(_logger, typeof(Colecao).Name, ex);
+                LogErrorFetchingByFilter(Logger, typeof(Colecao).Name, ex);
                 return [];
             }
             catch (InvalidOperationException ex)
             {
-                LogErrorFetchingByFilter(_logger, typeof(Colecao).Name, ex);
+                LogErrorFetchingByFilter(Logger, typeof(Colecao).Name, ex);
                 return [];
             }
             catch (Exception ex)
             {
-                LogErrorFetchingByFilter(_logger, typeof(Colecao).Name, ex);
+                LogErrorFetchingByFilter(Logger, typeof(Colecao).Name, ex);
                 throw;
             }
         }

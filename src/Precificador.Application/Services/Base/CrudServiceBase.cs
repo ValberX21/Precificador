@@ -9,7 +9,7 @@ namespace Precificador.Application.Services.Base
     {
         protected readonly TRepository _repository = repository;
 
-        public virtual async Task<IEnumerable<TModel>> GetAllAsync()
+        public virtual async Task<IEnumerable<TModel>?> GetAllAsync()
         {
             var entities = await _repository.GetAllAsync();
             return entities == null ? [] : ConvertToModel(entities);
@@ -21,7 +21,7 @@ namespace Precificador.Application.Services.Base
             return entity == null ? null : ConvertToModel(entity as TEntity);
         }
 
-        public virtual async Task<IEnumerable<TModel>> GetByFilterAsync(TFilter filter)
+        public virtual async Task<IEnumerable<TModel>?> GetByFilterAsync(TFilter filter)
         {
             var entities = await GetEntitiesByFilterAsync(filter);
             return entities == null ? [] : ConvertToModel(entities);
@@ -55,7 +55,7 @@ namespace Precificador.Application.Services.Base
             return await _repository.UpdateAsync(entity);
         }
 
-        private async Task<IEnumerable<TEntity>> GetEntitiesByFilterAsync(TFilter filter)
+        private async Task<IEnumerable<TEntity>?> GetEntitiesByFilterAsync(TFilter filter)
         {
             var entities = await _repository.GetByFilterAsync(filter);
             return entities ?? [];

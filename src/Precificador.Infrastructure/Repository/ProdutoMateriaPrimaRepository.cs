@@ -15,7 +15,7 @@ namespace Precificador.Infrastructure.Repository
         {
             try
             {
-                var query = _context.ProdutoMateriaPrimas.AsQueryable().Where(c => c.Ativo);
+                var query = Context.ProdutoMateriaPrimas.AsQueryable().Where(c => c.Ativo);
 
                 if (filter != null)
                 {
@@ -44,17 +44,17 @@ namespace Precificador.Infrastructure.Repository
             }
             catch (DbException dbEx)
             {
-                LogErrorFetchingByFilter(_logger, typeof(ProdutoMateriaPrima).Name, dbEx);
+                LogErrorFetchingByFilter(Logger, typeof(ProdutoMateriaPrima).Name, dbEx);
                 return [];
             }
             catch (InvalidOperationException invalidOpEx)
             {
-                LogErrorFetchingByFilter(_logger, typeof(ProdutoMateriaPrima).Name, invalidOpEx);
+                LogErrorFetchingByFilter(Logger, typeof(ProdutoMateriaPrima).Name, invalidOpEx);
                 return [];
             }
             catch (Exception ex)
-            {
-                LogErrorFetchingByFilter(_logger, typeof(ProdutoMateriaPrima).Name, ex);
+            {   
+                LogErrorFetchingByFilter(Logger, typeof(ProdutoMateriaPrima).Name, ex);
                 throw;
             }
         }
