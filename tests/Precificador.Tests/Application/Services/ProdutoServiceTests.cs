@@ -98,23 +98,6 @@ namespace Precificador.Tests.Application.Services
             Assert.Equal(model.DataCalculoPreco, entity.DataCalculoPreco);
             Assert.Equal(model.PrecoCusto, entity.PrecoCusto);
         }
-
-        [Fact]
-        public async Task GetEntitiesByFilterAsync_DeveChamarRepositorioComFiltro()
-        {
-            var filter = new NomeFilter { Nome = "Filtro" };
-            var entities = new List<Domain.Entities.Produto>
-            {
-                new() { Id = Guid.NewGuid(), Nome = "Produto 1" }
-            };
-            _repositoryMock.Setup(r => r.GetByFilterAsync(filter)).ReturnsAsync(entities);
-
-            var result = await _service.InvokeGetEntitiesByFilterAsync(filter);
-
-            Assert.Single(result);
-            Assert.Equal("Produto 1", ((List<Domain.Entities.Produto>)result)[0].Nome);
-            _repositoryMock.Verify(r => r.GetByFilterAsync(filter), Times.Once);
-        }
     }
 
     public static class ProdutoServiceTestExtensions

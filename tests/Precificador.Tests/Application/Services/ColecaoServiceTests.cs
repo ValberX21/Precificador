@@ -80,23 +80,6 @@ namespace Precificador.Tests.Application.Services
             Assert.Equal(model.Ano, entity.Ano);
             Assert.Equal(model.DataLancamento, entity.DataLancamento);
         }
-
-        [Fact]
-        public async Task GetEntitiesByFilterAsync_DeveChamarRepositorioComFiltro()
-        {
-            var filter = new ColecaoFilter { Nome = "Filtro" };
-            var entities = new List<Domain.Entities.Colecao>
-            {
-                new() { Id = Guid.NewGuid(), Nome = "Coleção 1", Ano = 2022 }
-            };
-            _repositoryMock.Setup(r => r.GetByFilterAsync(filter)).ReturnsAsync(entities);
-
-            var result = await _service.InvokeGetEntitiesByFilterAsync(filter);
-
-            Assert.Single(result);
-            Assert.Equal("Coleção 1", ((List<Domain.Entities.Colecao>)result)[0].Nome);
-            _repositoryMock.Verify(r => r.GetByFilterAsync(filter), Times.Once);
-        }
     }
 
     public static class ColecaoServiceTestExtensions

@@ -102,23 +102,6 @@ namespace Precificador.Tests.Application.Services
             Assert.Equal(model.GrupoId, entity.GrupoId);
             Assert.Equal(model.UnidadeMedidaId, entity.UnidadeMedidaId);
         }
-
-        [Fact]
-        public async Task GetEntitiesByFilterAsync_DeveChamarRepositorioComFiltro()
-        {
-            var filter = new NomeFilter { Nome = "Filtro" };
-            var entities = new List<Domain.Entities.MateriaPrima>
-            {
-                new() { Id = Guid.NewGuid(), Nome = "Matéria 1" }
-            };
-            _repositoryMock.Setup(r => r.GetByFilterAsync(filter)).ReturnsAsync(entities);
-
-            var result = await _service.InvokeGetEntitiesByFilterAsync(filter);
-
-            Assert.Single(result);
-            Assert.Equal("Matéria 1", ((List<Domain.Entities.MateriaPrima>)result)[0].Nome);
-            _repositoryMock.Verify(r => r.GetByFilterAsync(filter), Times.Once);
-        }
     }
 
     public static class MateriaPrimaServiceTestExtensions

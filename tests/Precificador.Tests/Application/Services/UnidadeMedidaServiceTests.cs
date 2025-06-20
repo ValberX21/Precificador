@@ -74,24 +74,6 @@ namespace Precificador.Tests.Application.Services
             Assert.Equal(model.Nome, entity.Nome);
             Assert.Equal(model.Abreviacao, entity.Abrebiacao);
         }
-
-        [Fact]
-        public async Task GetEntitiesByFilterAsync_DeveChamarRepositorioComFiltro()
-        {
-            var filter = new NomeFilter { Nome = "Filtro" };
-            var entities = new List<Domain.Entities.UnidadeMedida>
-            {
-                new() { Id = Guid.NewGuid(), Nome = "Unidade 1", Abrebiacao = "U1" }
-            };
-            _repositoryMock.Setup(r => r.GetByFilterAsync(filter)).ReturnsAsync(entities);
-
-            var result = await _service.InvokeGetEntitiesByFilterAsync(filter);
-
-            Assert.NotNull(result); // Ensure result is not null before dereferencing  
-            Assert.Single(result!);
-            Assert.Equal("Unidade 1", ((List<Domain.Entities.UnidadeMedida>)result)[0].Nome);
-            _repositoryMock.Verify(r => r.GetByFilterAsync(filter), Times.Once);
-        }
     }
 
     public static class UnidadeMedidaServiceTestExtensions

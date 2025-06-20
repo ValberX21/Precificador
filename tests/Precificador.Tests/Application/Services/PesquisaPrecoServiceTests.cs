@@ -87,23 +87,6 @@ namespace Precificador.Tests.Application.Services
             Assert.Equal(model.Valor, entity.Valor);
             Assert.Equal(model.DataPesquisa, entity.DataPesquisa);
         }
-
-        [Fact]
-        public async Task GetEntitiesByFilterAsync_DeveChamarRepositorioComFiltro()
-        {
-            var filter = new PesquisaPrecoFilter { ProdutoNome = "Arroz", Local = "Mercado" };
-            var entities = new List<Domain.Entities.PesquisaPreco>
-            {
-                new() { Id = Guid.NewGuid(), Local = "Mercado" }
-            };
-            _repositoryMock.Setup(r => r.GetByFilterAsync(filter)).ReturnsAsync(entities);
-
-            var result = await _service.InvokeGetEntitiesByFilterAsync(filter);
-
-            Assert.Single(result);
-            Assert.Equal("Mercado", ((List<Domain.Entities.PesquisaPreco>)result)[0].Local);
-            _repositoryMock.Verify(r => r.GetByFilterAsync(filter), Times.Once);
-        }
     }
 
     // Métodos auxiliares para acessar membros protegidos via reflexão

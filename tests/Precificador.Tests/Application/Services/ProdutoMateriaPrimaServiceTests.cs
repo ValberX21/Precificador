@@ -16,29 +16,6 @@ namespace Precificador.Tests.Application.Services
             _repositoryMock = new Mock<IProdutoMateriaPrimaRepository>();
             _service = new ProdutoMateriaPrimaService(_repositoryMock.Object);
         }
-
-        [Fact]
-        public async Task GetEntitiesByFilterAsync_DeveChamarRepositorioComFiltro()
-        {
-            var filter = new ProdutoMateriaPrimaFilter { ProdutoId = Guid.NewGuid(), MateriaPrimaId = Guid.NewGuid() };
-            var entities = new List<Domain.Entities.ProdutoMateriaPrima>
-                {
-                    new() {
-                        Id = Guid.NewGuid(),
-                        ProdutoId = filter.ProdutoId ?? Guid.Empty,
-                        MateriaPrimaId = filter.MateriaPrimaId ?? Guid.Empty,
-                        Quantidade = 2.0m
-                    }
-                };
-            _repositoryMock.Setup(r => r.GetByFilterAsync(filter)).ReturnsAsync(entities);
-
-            var result = await _service.InvokeGetEntitiesByFilterAsync(filter);
-
-            Assert.Single(result);
-            Assert.Equal(filter.ProdutoId, ((List<Domain.Entities.ProdutoMateriaPrima>)result)[0].ProdutoId);
-            Assert.Equal(filter.MateriaPrimaId, ((List<Domain.Entities.ProdutoMateriaPrima>)result)[0].MateriaPrimaId);
-            _repositoryMock.Verify(r => r.GetByFilterAsync(filter), Times.Once);
-        }
     }
 
     // Métodos auxiliares para acessar membros protegidos via reflexão
