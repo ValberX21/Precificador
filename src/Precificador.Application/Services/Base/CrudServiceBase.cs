@@ -1,4 +1,5 @@
-﻿using Precificador.Application.Model.Base;
+﻿using Precificador.Application.APIsExternas;
+using Precificador.Application.Model.Base;
 using Precificador.Domain.Entities.Base;
 using Precificador.Domain.Filters;
 using Precificador.Domain.Repository.Base;
@@ -8,6 +9,7 @@ namespace Precificador.Application.Services.Base
     public abstract class CrudServiceBase<TModel, TEntity, TFilter, TRepository>(TRepository repository) where TModel : ModelBase where TEntity : CrudBase where TFilter : IFilter where TRepository : ICrudRepository<TEntity, TFilter>
     {
         protected readonly TRepository _repository = repository;
+        private readonly CallFunctions _callFunctions = new CallFunctions();
 
         public virtual async Task<IEnumerable<TModel>?> GetAllAsync()
         {
@@ -30,7 +32,19 @@ namespace Precificador.Application.Services.Base
         public virtual async Task<bool> AddAsync(TModel model)
         {
             var entity = ConvertToEntity(model);
-            return await _repository.AddAsync(entity);
+
+            await _repository.AddAsync(entity);
+
+            bool confirmaCadastro = await _repository.AddAsync(entity);
+                        
+            if (!confirmaCadastro)
+            {
+                return false;
+            }
+            else
+            {
+                return await _callFunctions.GeraArquivoNovoMaterial(model);
+            }                         
         }
 
         public virtual async Task<bool> UpdateAsync(TModel model)
